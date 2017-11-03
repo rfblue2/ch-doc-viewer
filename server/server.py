@@ -152,3 +152,6 @@ def get_keyword_graph():
 def get_keywords(fileid):
   # TODO implement by implementing pagerank on keyword graph
   return {}, 501
+
+if __name__ == "__main__":
+  app.run()
