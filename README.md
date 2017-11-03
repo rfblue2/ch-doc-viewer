@@ -6,14 +6,12 @@ This is a document viewer made specifically to support reading Chinese.  Users c
 - Keyword Collocation Networks
 
 ## Running the server
-The server is a flask application.  You must have python (with pip), virtualenv, and flask installed. To run, setup the virtual environment, export Flask environment variables, then startup the server (localhost:8000)
+The server is a flask application.  You must have python (with pip), virtualenv, and flask installed. To run, setup the virtual environment, then startup the server (localhost:5000)
 ```
 source ch-env/bin/activate          # start up virtual environment
 cd server
 pip install -r requirements.txt
-export FLASK_APP=server.py
-export FLASK_DEBUG=1                # optional
-flask run --port=8000
+python wsgi.py
 ```
 
 ## Running the client
