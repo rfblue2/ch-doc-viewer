@@ -2,7 +2,7 @@
 Roland Fong
 Python server that interfaces with pyMongo
 '''
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask import request
 from flask import json
 from flask_cors import CORS
@@ -15,7 +15,7 @@ import json
 import os
 import re
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='client/build')
 cors = CORS(app)
 client = MongoClient()
 db = client['chineseDB']
@@ -30,10 +30,17 @@ class JSONEncoder(json.JSONEncoder):
 
 ################################################################################
 
-@app.route("/")
-def hello():
-  app.logger.debug("Init!")
-  return "Hello World!"
+# Serve React App
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if(path == ""):
+        return send_from_directory('client/build', 'index.html')
+    else:
+        if(os.path.exists("client/build/" + path)):
+            return send_from_directory('client/build', path)
+        else:
+            return send_from_directory('client/build', 'index.html')
 
 ################################################################################
 
@@ -83,12 +90,12 @@ def get_keyword_graph():
   contents = file.read().decode("utf-8") 
 
   stopwords = []
-  with open(os.path.join(APP_ROOT, 'stopwords.txt'), 'r') as stop_file:
+  with open(os.path.join(APP_ROOT, './static/stopwords.txt'), 'r') as stop_file:
     for w in stop_file:
       stopwords.append(w[:-1])
 
   full_dictionary = []
-  with open(os.path.join(APP_ROOT, 'dictionary.txt'), 'r') as dict_file:
+  with open(os.path.join(APP_ROOT, './static/dictionary.txt'), 'r') as dict_file:
     for w in dict_file:
       full_dictionary.append(w[:-1])
   
