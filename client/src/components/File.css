@@ -1,0 +1,23 @@
+.file {
+	background-color: #eee;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 3px 0 3px 0;
+	list-style-type: none;
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+}
+
+.file:hover {
+	background-color: #ddd;
+	cursor: pointer;
+}
+
+.remove:hover {
+	color: red;
+}
+
+.filelink {
+}
+

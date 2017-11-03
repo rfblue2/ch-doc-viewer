@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react",
+    "import",
+    "import-order-autofix"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+      "browser": true
+  },
+  "rules": { 
+    "semi": ["warn", "never"],
+    "comma-dangle": ["warn", "only-multiline"],
+    "no-console": "warn",
+    "import/order": "warn",
+    "import-order-autofix/order": "warn",
+  }
+}

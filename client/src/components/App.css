@@ -1,0 +1,16 @@
+.global-container {
+	display: grid;
+	margin: 10px;
+	grid-template-columns: [sidebar-left] 30% [sidebar-right] auto;
+	grid-template-rows: auto
+}
+
+.sidebar {
+	grid-column-start: sidebar-left;
+	grid-column-end: sidebar-right;
+}
+
+.main {
+	grid-column-start: sidebar-right;
+	margin-left: 20px;
+}
