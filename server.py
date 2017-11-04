@@ -17,7 +17,8 @@ import re
 
 app = Flask(__name__, static_folder='client/build')
 cors = CORS(app)
-client = MongoClient()
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost')
+client = MongoClient(MONGO_URI)
 db = client['chineseDB']
 fs = gridfs.GridFS(db)
 matcher = re.compile(r'[\u4e00-\u9fff]+')
