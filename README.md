@@ -9,7 +9,6 @@ This is a document viewer made specifically to support reading Chinese.  Users c
 The server is a flask application.  You must have python (with pip), virtualenv, and flask installed. To run, setup the virtual environment, then startup the server (localhost:5000)
 ```
 source ch-env/bin/activate          # start up virtual environment
-cd server
 pip install -r requirements.txt
 python wsgi.py
 ```
@@ -17,7 +16,8 @@ python wsgi.py
 ## Running the client
 The client is a react application that runs as a separate application at localhost:3000.  You must have npm installed.
 ```
-cd client
 npm install
 npm start
 ```
+
+The client code is linted using eslint.

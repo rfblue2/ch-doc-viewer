@@ -15,7 +15,7 @@ import json
 import os
 import re
 
-app = Flask(__name__, static_folder='client/build')
+app = Flask(__name__, static_folder='build')
 cors = CORS(app)
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost')
 client = MongoClient(MONGO_URI)
