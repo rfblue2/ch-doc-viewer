@@ -21,3 +21,6 @@ npm start
 ```
 
 The client code is linted using eslint.
+
+## Production Build
+The production app is served by flask on port 5000 and reads a generated build folder.  Generate a static build with `npm run build`

@@ -19,7 +19,7 @@ app = Flask(__name__, static_folder='build')
 cors = CORS(app)
 MONGO_URI = os.environ.get('MONGODB_URI', 'mongodb://localhost')
 client = MongoClient(MONGO_URI)
-db = client['chineseDB']
+db = client['heroku_g229m5gt' if ('MONGO_URI' in os.environ) else 'chineseDB']
 fs = gridfs.GridFS(db)
 matcher = re.compile(r'[\u4e00-\u9fff]+')
 
