@@ -21,7 +21,6 @@
     "semi": ["warn", "never"],
     "comma-dangle": ["warn", "only-multiline"],
     "no-console": "warn",
-    "no-undef": "warn",
     "import/order": "warn",
     "import-order-autofix/order": "warn",
   }
