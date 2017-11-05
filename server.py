@@ -15,7 +15,8 @@ import json
 import os
 import re
 
-app = Flask(__name__, static_folder='build')
+BUILD_DIR = 'build'
+app = Flask(__name__, static_folder=BUILD_DIR)
 cors = CORS(app)
 MONGO_URI = os.environ.get('MONGODB_URI', 'mongodb://localhost')
 client = MongoClient(MONGO_URI)
@@ -36,12 +37,12 @@ class JSONEncoder(json.JSONEncoder):
 @app.route('/<path:path>')
 def serve(path):
     if(path == ""):
-        return send_from_directory('client/build', 'index.html')
+        return send_from_directory(BUILD_DIR, 'index.html')
     else:
-        if(os.path.exists("client/build/" + path)):
-            return send_from_directory('client/build', path)
+        if(os.path.exists(BUILD_DIR + '/' + path)):
+            return send_from_directory(BUILD_DIR, path)
         else:
-            return send_from_directory('client/build', 'index.html')
+            return send_from_directory(BUILD_DIR, 'index.html')
 
 ################################################################################
 
