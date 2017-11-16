@@ -142,7 +142,7 @@ export const displayFile = filename => {
 } 
 
 export const deleteFile = id => dispatch => {
-  fetch('http://127.0.0.1:8000/files/' + id, {
+  fetch(FILE_URL + '/' + id, {
     method: 'DELETE',
     mode: 'cors',
   }).then(res => {

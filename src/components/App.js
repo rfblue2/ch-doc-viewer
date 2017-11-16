@@ -11,8 +11,8 @@ import './App.css'
  */
 const App = () => (
   <div>
-    <h1>Chinese Document Viewer (中文文件读机)</h1>
-    <div className='global-container'>
+    <h1>Literary Chinese Document Reader (中国古代文言小说阅读系统)</h1>
+    <div className='content-container'>
         <div className='sidebar'>
           <AddFile />
           <VisibleFileList />
