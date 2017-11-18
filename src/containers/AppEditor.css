@@ -1,6 +1,5 @@
 .DraftEditor-editorContainer {
-    background-color:#ddd;
-    border-radius: 5px;
-    border-left:.1px solid transparent;
-    z-index:1
-}
+  background-color: #ddd;
+  border-radius: 5px;
+  border-left: .1px solid transparent;
+  z-index: 1; }

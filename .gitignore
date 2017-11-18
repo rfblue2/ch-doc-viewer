@@ -22,3 +22,4 @@ yarn-error.log*
 
 /ch-env
 /__pycache__
+**/*.css

@@ -8,3 +8,4 @@ const DEV = !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 export const BASE_URL = DEV ? DEV_URL : PROD_URL 
 export const FILE_URL = BASE_URL + '/files'
 export const KEYWORDGRAPH_URL = BASE_URL + '/keywordgraph'
+export const KEYWORDPERMS_URL = BASE_URL + '/keywordperm'

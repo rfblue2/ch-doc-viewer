@@ -81,13 +81,45 @@ def delete_file(fileid):
   file = fs.delete(ObjectId(fileid))
   return json.dumps({'id': fileid}), 200, {'ContentType':'application/json'} 
 
+
 ################################################################################
 
-@app.route('/keywordgraph')
+@app.route('/keywordperm', methods=['GET'])
+def get_keyword_permutations():
+  all_args = request.args.to_dict()
+  keywords = request.args.getlist('keywords')
+  fileid = all_args['file_id']
+  window = int(all_args.get('window', 5)) # get n chars before after keyword 
+
+  file = fs.find_one({'_id': ObjectId(fileid)})
+  contents = file.read().decode('utf-8')
+  # find the start/end indices of keywords
+  indices = []
+  for keyword in keywords:
+    indices = indices + [(m.start(), m.end()) for m in re.finditer(keyword, contents)]
+
+  # obtain strings of certain length
+  permutations = []
+  for s,e in indices:
+    new_start = max(0, s - window)
+    new_end = min(e + window, len(contents))
+    permutations.append({
+      'before': contents[new_start:s],
+      'keyword': contents[s:e],
+      'after': contents[e:new_end]
+    })
+
+  return jsonify(permutations)
+
+
+################################################################################
+
+@app.route('/keywordgraph', methods=['GET'])
 def get_keyword_graph():
   # TODO query param for window size
   all_args = request.args.to_dict()
   fileid = all_args['fileid']
+  window = all_args.get('window', 2)
   file = fs.find_one({'_id': ObjectId(fileid)})
   contents = file.read().decode("utf-8") 
 
@@ -107,7 +139,7 @@ def get_keyword_graph():
   # Creates keyword collocation graph - refactor this out of this file
   ##############################################################################
 
-  d = 2 # window to look for adj words
+  d = window # window to look for adj words
 
   # create graph from text
   def create_col_graph(text):
