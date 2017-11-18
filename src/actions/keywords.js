@@ -1,8 +1,8 @@
+import { RestURLBuilder } from 'rest-url-builder'
 import { 
   KEYWORDGRAPH_URL,
   KEYWORDPERMS_URL,
 } from '../constants'
-import { RestURLBuilder } from 'rest-url-builder'
  
 export const LOAD_KEYWORD_GRAPH_DATA_SUCC = 'LOAD_KEYWORD_GRAPH_DATA_SUCC'
 export const LOAD_KEYWORD_GRAPH_DATA_ERR = 'LOAD_KEYWORD_GRAPH_DATA_ERR'

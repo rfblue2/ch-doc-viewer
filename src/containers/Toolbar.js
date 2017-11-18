@@ -17,6 +17,7 @@ class Toolbar extends Component {
     return (
       <div>
         <button 
+          className='button'
           onClick={() => dispatch(fetchKeywordGraphData(fileid))}>
           Keyword Graph
         </button>
