@@ -5,11 +5,10 @@
   "dependencies": {
     "d3": "^4.11.0",
     "draft-js": "^0.10.3",
-    "foundation-sites": "^6.4.4-rc1",
-    "jquery": "^3.2.1",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
     "react-dropzone": "^4.2.1",
     "react-file-dropzone": "^0.4.1",
@@ -29,6 +28,6 @@
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build-css && react-scripts build"
+    "heroku-postbuild": "npm run build"
   }
 }
