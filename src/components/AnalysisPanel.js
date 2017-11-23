@@ -1,6 +1,7 @@
 import React from 'react'
 import KeywordGraphViewer from '../containers/KeywordGraphViewer'
 import Toolbar from '../containers/Toolbar'
+import KeywordSearch from '../containers/KeywordSearch'
 import {
   Tabs,
   Tab,
@@ -13,7 +14,7 @@ import './AnalysisPanel.css'
 const AnalysisPanel = () => (
   <Tabs defaultActiveKey={1} animation={false} id='analysis_panel'>
     <Tab eventKey={1} title='Keyword Search'>
-      Coming soon!
+      <KeywordSearch />
     </Tab>
     <Tab eventKey={2} title='Keyword Graph'>
       <Toolbar />

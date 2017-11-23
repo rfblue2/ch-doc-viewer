@@ -1,4 +1,4 @@
-import { RestURLBuilder } from 'rest-url-builder'
+import { buildUrl } from 'build-url'
 import { 
   KEYWORDGRAPH_URL,
   KEYWORDPERMS_URL,
@@ -39,11 +39,9 @@ export const fetchKeywordPerms = (fileid, keywords) => dispatch => {
     dispatch(loadKeywordPermsError("Error: Require fileid and keywords"))
     return
   }
-  let builder = new RestURLBuilder()
-  builder.buildRestURL(KEYWORDPERMS_URL)
-  builder.setQueryParameter('fileid', fileid)
-  builder.setQueryParameter('keywords', keywords)
-  return fetch(builder.get(), { mode: 'cors' })
+  const url = buildUrl(KEYWORDPERMS_URL, 
+    { queryParams: { fileid, keywords } })
+  return fetch(url, { mode: 'cors' })
     .then(res => res.json())
     .then(json => dispatch(loadKeywordPermsSuccess(json)))
     .catch(err => dispatch(loadKeywordPermsError(err)))

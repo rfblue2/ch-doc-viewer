@@ -87,8 +87,8 @@ def delete_file(fileid):
 @app.route('/keywordperm', methods=['GET'])
 def get_keyword_permutations():
   all_args = request.args.to_dict()
-  keywords = request.args.getlist('keywords')
-  fileid = all_args['file_id']
+  fileid = all_args['fileid']
+  keywords = re.split('[，,]+', all_args['keywords'])
   window = int(all_args.get('window', 5)) # get n chars before after keyword 
 
   file = fs.find_one({'_id': ObjectId(fileid)})
