@@ -6,15 +6,22 @@ import {
   LOAD_KEYWORD_PERMS_ERR,
 } from '../actions/keywords'
 
-const keywords = (state = {}, action) => {
+const keywords = (state = {
+  permData: [],
+  graphData: null,
+}, action) => {
   switch(action.type) {
     case DOWNLOAD_FILE_SUCC:
       return {
         ...state,
+        permData: [],
+        graphData: null,
         fileid: action.fileid,
       }
     case LOAD_KEYWORD_GRAPH_DATA_SUCC:
       return {
+        ...state,
+        error: null,
         graphData: action.graphData,
       }
     case LOAD_KEYWORD_GRAPH_DATA_ERR: /* fall-thru */

@@ -54,9 +54,6 @@ class KeywordSearch extends Component {
 
   render() {
     const { keywordPerms } = this.props
-    const viewer = keywordPerms ? 
-      <KeywordPermViewer keywordPerms={keywordPerms} /> : null
-
     return (
       <div>
         <form>
@@ -73,7 +70,7 @@ class KeywordSearch extends Component {
             />
           </FormGroup>
         </form>
-        { viewer }
+        <KeywordPermViewer keywordPerms={keywordPerms} />
       </div>
     )
   }

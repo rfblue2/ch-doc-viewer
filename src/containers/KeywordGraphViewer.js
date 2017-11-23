@@ -13,12 +13,14 @@ class KeywordGraphViewer extends Component {
     error: PropTypes.string,
   }
 
+  clearGraph() {
+    d3.selectAll("svg > *").remove() // clear svg
+  }
+
   renderGraph(graph) {
     var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height")
-
-    d3.selectAll("svg > *").remove() // clear svg
 
     var color = d3.scaleOrdinal(d3.schemeCategory20)
 
@@ -104,8 +106,12 @@ class KeywordGraphViewer extends Component {
     if (nextProps.error) {
       alert(nextProps.error)
       return
+    } else if (nextProps.graphData) {
+      this.clearGraph()
+      this.renderGraph(nextProps.graphData)
+    } else {
+      this.clearGraph()
     }
-    this.renderGraph(nextProps.graphData)
   }
 
   render() {
