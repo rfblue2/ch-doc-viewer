@@ -17,10 +17,10 @@
     "react-scripts": "^1.0.17",
     "react-upload-file": "^2.0.0-beta.6",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
-    "rest-url-builder": "^1.0.6"
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
+    "server": "export FLASK_APP=server.py && export FLASK_DEBUG=1 && flask run",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",

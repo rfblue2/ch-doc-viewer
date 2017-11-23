@@ -10,8 +10,9 @@ The server is a flask application.  You must have python (with pip), virtualenv,
 ```
 source ch-env/bin/activate          # start up virtual environment
 pip install -r requirements.txt
-python wsgi.py
+npm run server
 ```
+
 
 ## Running the client
 The client is a react application that runs as a separate application at localhost:3000.  You must have npm installed.
@@ -23,4 +24,8 @@ npm start
 The client code is linted using eslint.
 
 ## Production Build
-The production app is served by flask on port 5000 and reads a generated build folder.  Generate a static build with `npm run build`
+The production app is served by flask on port 5000 and reads a generated build folder.  Generate a static and then start the server in production.
+```
+npm run build
+python wsgi.py
+```
