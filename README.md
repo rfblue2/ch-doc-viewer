@@ -1,4 +1,4 @@
-# Chinese Document Viewer (中文文件读机) [WIP]
+# Chinese Document Viewer (中国古代文言小说阅读系统) [WIP]
 
 Fall 2017 Independent work project.
 
