@@ -7,7 +7,7 @@ This is a document viewer made specifically to support reading Chinese.  Users c
 - Keyword Collocation Networks
 
 ## Running the server
-The server is a flask application.  You must have python (with pip), virtualenv, and flask installed. To run, setup the virtual environment, then startup the server (localhost:5000)
+The server is a flask application.  You must have python 3 with Pipenv installed. To run, setup the virtual environment, then startup the server (localhost:5000)
 ```
 pipenv install      # install required packages
 pipenv shell        # start the virtual environment
