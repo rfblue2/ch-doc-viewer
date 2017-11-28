@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import editor from './editor'
-import files from './files'
-import keywords from './keywords'
+import editor from './editor.reducers'
+import files from './files.reducers'
+import keywords from './keywords.reducers'
 
 const appReducers = combineReducers({
   files,

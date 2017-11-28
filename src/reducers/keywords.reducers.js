@@ -1,10 +1,11 @@
-import { DOWNLOAD_FILE_SUCC } from '../actions'
 import {
+  DOWNLOAD_FILE_SUCC,
   LOAD_KEYWORD_GRAPH_DATA_ERR,
   LOAD_KEYWORD_GRAPH_DATA_SUCC,
   LOAD_KEYWORD_PERMS_SUCC,
   LOAD_KEYWORD_PERMS_ERR,
-} from '../actions/keywords'
+  DELETE_FILE_SUCC,
+} from '../constants'
 
 const keywords = (state = {
   permData: [],
@@ -34,6 +35,13 @@ const keywords = (state = {
       return {
         ...state,
         permData: action.keywordPerms,
+      }
+    case DELETE_FILE_SUCC:
+      return {
+        ...state,
+        permData: [],
+        graphData: null,
+        fileid: null,
       }
     default:
       return state

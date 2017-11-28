@@ -30,5 +30,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
+  },
+  "devDependencies": {
+    "eslint-plugin-import-order-autofix": "^0.8.3"
   }
 }

@@ -6,7 +6,7 @@ import {
   ControlLabel,
   FormControl,
 } from 'react-bootstrap'
-import { fetchKeywordPerms } from '../actions/keywords'
+import { fetchKeywordPerms } from '../actions'
 import KeywordPermViewer from '../components/KeywordPermViewer'
 
 /**

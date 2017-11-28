@@ -25,3 +25,5 @@ yarn-error.log*
 /src/components/*.css
 /src/containers/*.css
 *.pyc
+
+/.idea

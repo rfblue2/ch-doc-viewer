@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component }  from 'react'
-import { fetchKeywordGraphData } from '../actions/keywords'
+import { fetchKeywordGraphData } from '../actions'
 import {
   Button,
 } from 'react-bootstrap'

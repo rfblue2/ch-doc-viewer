@@ -2,12 +2,11 @@ import { buildUrl } from 'build-url'
 import { 
   KEYWORDGRAPH_URL,
   KEYWORDPERMS_URL,
+  LOAD_KEYWORD_GRAPH_DATA_SUCC,
+  LOAD_KEYWORD_GRAPH_DATA_ERR,
+  LOAD_KEYWORD_PERMS_SUCC,
+  LOAD_KEYWORD_PERMS_ERR,
 } from '../constants'
- 
-export const LOAD_KEYWORD_GRAPH_DATA_SUCC = 'LOAD_KEYWORD_GRAPH_DATA_SUCC'
-export const LOAD_KEYWORD_GRAPH_DATA_ERR = 'LOAD_KEYWORD_GRAPH_DATA_ERR'
-export const LOAD_KEYWORD_PERMS_SUCC = 'LOAD_KEYWORD_PERMS_SUCC'
-export const LOAD_KEYWORD_PERMS_ERR = 'LOAD_KEYWORD_PERMS_ERR'
 
 export const fetchKeywordGraphData = fileid => dispatch => {
   if (!fileid) {

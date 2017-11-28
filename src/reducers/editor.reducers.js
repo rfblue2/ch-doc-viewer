@@ -1,7 +1,8 @@
 import { ContentState, EditorState } from 'draft-js'
 import {
   DOWNLOAD_FILE_SUCC,
-} from '../actions'
+  DELETE_FILE_SUCC,
+} from '../constants'
 
 const defaultState = {
   editorState: EditorState.createEmpty(), 
@@ -23,6 +24,8 @@ const editor = (state=defaultState , action) => {
         editorState,
         filename,
       }
+    case DELETE_FILE_SUCC:
+      return defaultState
     default:
       return state
   }

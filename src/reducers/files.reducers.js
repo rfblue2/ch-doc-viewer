@@ -3,7 +3,7 @@ import {
   LOAD_FILES_SUCC,
   UPLOAD_FILE_ERR,
   UPLOAD_FILE_SUCC,
-} from '../actions'
+} from '../constants'
 
 const files = (state = [], action) => {
   switch (action.type) {
