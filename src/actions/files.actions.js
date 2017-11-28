@@ -1,17 +1,5 @@
 import { FILE_URL } from '../constants'
-import {
-  LOAD_FILES_REQ,
-  LOAD_FILES_SUCC,
-  UPLOAD_FILE_REQ,
-  UPLOAD_FILE_SUCC,
-  UPLOAD_FILE_ERR,
-  DOWNLOAD_FILE_REQ,
-  DOWNLOAD_FILE_SUCC,
-  DOWNLOAD_FILE_ERR,
-  DELETE_FILE_REQ,
-  DELETE_FILE_SUCC,
-  DELETE_FILE_ERR,
-} from '../constants'
+import { fileConsts } from '../constants'
 
 // TODO move fetches into middleware and instead pass API params
 
@@ -34,13 +22,13 @@ export const fetchFile = id => dispatch => {
 
 export const downloadFile = () => {
     return {
-        type: DOWNLOAD_FILE_REQ,
+        type: fileConsts.DOWNLOAD_FILE_REQ,
     }
 }
 
 export const downloadFileSuccess = (id, filename, content) => {
     return {
-        type: DOWNLOAD_FILE_SUCC,
+        type: fileConsts.DOWNLOAD_FILE_SUCC,
         fileid: id,
         filename,
         content
@@ -49,7 +37,7 @@ export const downloadFileSuccess = (id, filename, content) => {
 
 export const downloadFileError = error => {
     return {
-        type: DOWNLOAD_FILE_ERR,
+        type: fileConsts.DOWNLOAD_FILE_ERR,
         error
     }
 }
@@ -74,20 +62,20 @@ export const fetchFiles = () => dispatch => {
 
 export const loadFiles = () => {
     return {
-        type: LOAD_FILES_REQ,
+        type: fileConsts.LOAD_FILES_REQ,
     }
 }
 
 export const loadFilesSuccess = files => {
     return {
-        type: LOAD_FILES_SUCC,
+        type: fileConsts.LOAD_FILES_SUCC,
         files
     }
 }
 
 export const loadFilesError = error => {
     return {
-        type: UPLOAD_FILE_ERR,
+        type: fileConsts.UPLOAD_FILE_ERR,
         error
     }
 }
@@ -111,14 +99,14 @@ export const uploadFile = file => dispatch => {
 
 export const uploadFileRequest = filename => {
     return {
-        type: UPLOAD_FILE_REQ,
+        type: fileConsts.UPLOAD_FILE_REQ,
         filename
     }
 }
 
 export const uploadFileSuccess = (filename, fileid) => {
     return {
-        type: UPLOAD_FILE_SUCC,
+        type: fileConsts.UPLOAD_FILE_SUCC,
         filename,
         fileid,
     }
@@ -126,7 +114,7 @@ export const uploadFileSuccess = (filename, fileid) => {
 
 export const uploadFileError = error => {
     return {
-        type: UPLOAD_FILE_ERR,
+        type: fileConsts.UPLOAD_FILE_ERR,
         error
     }
 }
@@ -153,21 +141,21 @@ export const deleteFile = id => dispatch => {
 
 export const deleteFileRequest = fileid => {
     return {
-        type: DELETE_FILE_REQ,
+        type: fileConsts.DELETE_FILE_REQ,
         fileid
     }
 }
 
 export const deleteFileSuccess = fileid => {
     return {
-        type: DELETE_FILE_SUCC,
+        type: fileConsts.DELETE_FILE_SUCC,
         fileid,
     }
 }
 
 export const deleteFileError = error => {
     return {
-        type: DELETE_FILE_ERR,
+        type: fileConsts.DELETE_FILE_ERR,
         error
     }
 }

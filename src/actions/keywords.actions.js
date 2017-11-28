@@ -1,11 +1,8 @@
 import { buildUrl } from 'build-url'
-import { 
+import {
+  keywordConsts,
   KEYWORDGRAPH_URL,
   KEYWORDPERMS_URL,
-  LOAD_KEYWORD_GRAPH_DATA_SUCC,
-  LOAD_KEYWORD_GRAPH_DATA_ERR,
-  LOAD_KEYWORD_PERMS_SUCC,
-  LOAD_KEYWORD_PERMS_ERR,
 } from '../constants'
 
 export const fetchKeywordGraphData = fileid => dispatch => {
@@ -21,14 +18,14 @@ export const fetchKeywordGraphData = fileid => dispatch => {
 
 export const loadKeywordGraphDataSuccess = graphData => {
   return {
-    type: LOAD_KEYWORD_GRAPH_DATA_SUCC,
+    type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC,
     graphData,
   }
 }
 
 export const loadKeywordGraphDataError = error => {
   return {
-    type: LOAD_KEYWORD_GRAPH_DATA_ERR,
+    type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR,
     error,
   }
 }
@@ -48,14 +45,14 @@ export const fetchKeywordPerms = (fileid, keywords) => dispatch => {
 
 export const loadKeywordPermsSuccess = keywordPerms => {
   return {
-    type: LOAD_KEYWORD_PERMS_SUCC,
+    type: keywordConsts.LOAD_KEYWORD_PERMS_SUCC,
     keywordPerms,
   }
 }
 
 export const loadKeywordPermsError = error => {
   return {
-    type: LOAD_KEYWORD_PERMS_ERR,
+    type: keywordConsts.LOAD_KEYWORD_PERMS_ERR,
     error,
   }
 }
