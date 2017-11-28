@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { uploadFile } from '../actions'
+import { fileActions } from '../actions'
 import './AddFile.css'
 
 /**
@@ -14,7 +14,7 @@ class AddFile extends Component {
   }
 
   onDrop(files) {
-    files.forEach(f => this.props.dispatch(uploadFile(f)))
+    files.forEach(f => this.props.dispatch(fileActions.upload(f)))
   }
 
   render() {

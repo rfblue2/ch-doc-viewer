@@ -1,10 +1,6 @@
 import {
-  DOWNLOAD_FILE_SUCC,
-  LOAD_KEYWORD_GRAPH_DATA_ERR,
-  LOAD_KEYWORD_GRAPH_DATA_SUCC,
-  LOAD_KEYWORD_PERMS_SUCC,
-  LOAD_KEYWORD_PERMS_ERR,
-  DELETE_FILE_SUCC,
+  keywordConsts,
+  fileConsts,
 } from '../constants'
 
 const keywords = (state = {
@@ -12,31 +8,31 @@ const keywords = (state = {
   graphData: null,
 }, action) => {
   switch(action.type) {
-    case DOWNLOAD_FILE_SUCC:
+    case fileConsts.GET_FILE_SUCC:
       return {
         ...state,
         permData: [],
         graphData: null,
         fileid: action.fileid,
       }
-    case LOAD_KEYWORD_GRAPH_DATA_SUCC:
+    case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC:
       return {
         ...state,
         error: null,
         graphData: action.graphData,
       }
-    case LOAD_KEYWORD_GRAPH_DATA_ERR: /* fall-thru */
-    case LOAD_KEYWORD_PERMS_ERR:
+    case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR: /* fall-thru */
+    case keywordConsts.LOAD_KEYWORD_PERMS_ERR:
       return {
         ...state,
         error: action.error,
       }
-    case LOAD_KEYWORD_PERMS_SUCC:
+    case keywordConsts.LOAD_KEYWORD_PERMS_SUCC:
       return {
         ...state,
         permData: action.keywordPerms,
       }
-    case DELETE_FILE_SUCC:
+    case fileConsts.DELETE_FILE_SUCC:
       return {
         ...state,
         permData: [],

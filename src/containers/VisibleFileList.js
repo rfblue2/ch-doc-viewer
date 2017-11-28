@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { deleteFile, fetchFile, fetchFiles } from '../actions'
+import { fileActions } from '../actions'
 import FileList from '../components/FileList'
 
 /**
@@ -22,7 +22,7 @@ class VisibleFileList extends Component {
    
   componentDidMount() {
     const { dispatch } = this.props  
-    dispatch(fetchFiles())
+    dispatch(fileActions.getAll())
   }
 
   render() {
@@ -47,11 +47,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFileClick: fileid => {
-      dispatch(fetchFile(fileid))
+      dispatch(fileActions.get(fileid))
     },
     onRemoveClick: fileid => e => {
       e.stopPropagation()
-      dispatch(deleteFile(fileid))
+      dispatch(fileActions.remove(fileid))
     },
     dispatch: dispatch
   }

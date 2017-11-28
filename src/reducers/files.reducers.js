@@ -1,15 +1,10 @@
-import {
-  DELETE_FILE_SUCC,
-  LOAD_FILES_SUCC,
-  UPLOAD_FILE_ERR,
-  UPLOAD_FILE_SUCC,
-} from '../constants'
+import { fileConsts } from '../constants'
 
 const files = (state = [], action) => {
   switch (action.type) {
-    case LOAD_FILES_SUCC:
+    case fileConsts.GETALL_FILES_SUCC:
       return action.files
-    case UPLOAD_FILE_SUCC:
+    case fileConsts.UPLOAD_FILE_SUCC:
       return [
         ...state,
         {
@@ -17,9 +12,9 @@ const files = (state = [], action) => {
           _id: action.fileid,
         }
       ]
-    case DELETE_FILE_SUCC:
+    case fileConsts.DELETE_FILE_SUCC:
       return state.filter(x => x._id !== action.fileid)
-    case UPLOAD_FILE_ERR:
+    case fileConsts.UPLOAD_FILE_ERR:
       return state
     default:
       return state
