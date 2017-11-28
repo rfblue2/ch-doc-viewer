@@ -1,5 +1,6 @@
-import { FILE_URL } from '../constants'
 import { buildUrl } from 'build-url'
+import { FILE_URL } from '../constants'
+import { handleResponse } from './helper'
 
 const get = id => {
   const url =  buildUrl(FILE_URL, { path: id })
@@ -30,13 +31,6 @@ const remove = id => {
     method: 'DELETE',
   }
   return fetch(url, options).then(handleResponse)
-}
-
-const handleResponse = res => {
-  if (!res.ok) {
-    return Promise.reject(res.statusText)
-  }
-  return res.json()
 }
 
 export const filesService = {

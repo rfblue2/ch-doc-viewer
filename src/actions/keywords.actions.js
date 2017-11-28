@@ -1,58 +1,73 @@
-import { buildUrl } from 'build-url'
-import {
-  keywordConsts,
-  KEYWORDGRAPH_URL,
-  KEYWORDPERMS_URL,
-} from '../constants'
+import { keywordsService } from '../services'
+import { keywordConsts } from '../constants'
 
-export const fetchKeywordGraphData = fileid => dispatch => {
-  if (!fileid) {
-    dispatch(loadKeywordGraphDataError('Error: No File Selected'))
-    return
+export const getGraphData = fileid => {
+  const request = fileid => {
+    return {
+      type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
+      fileid,
+    }
   }
-  return fetch(KEYWORDGRAPH_URL + '?fileid=' + fileid, { mode: 'cors' })
-  .then(res => res.json())
-  .then(json => dispatch(loadKeywordGraphDataSuccess(json)))
-  .catch(err => dispatch(loadKeywordGraphDataError(err)))
-}
-
-export const loadKeywordGraphDataSuccess = graphData => {
-  return {
-    type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC,
-    graphData,
+  const success = graphData => {
+    return {
+      type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC,
+      graphData,
+    }
   }
-}
 
-export const loadKeywordGraphDataError = error => {
-  return {
-    type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR,
-    error,
+  const failure = error => {
+    return {
+      type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR,
+      error,
+    }
   }
-}
 
-export const fetchKeywordPerms = (fileid, keywords) => dispatch => {
-  if (!fileid || !keywords) {
-    dispatch(loadKeywordPermsError("Error: Require fileid and keywords"))
-    return
-  }
-  const url = buildUrl(KEYWORDPERMS_URL, 
-    { queryParams: { fileid, keywords } })
-  return fetch(url, { mode: 'cors' })
-    .then(res => res.json())
-    .then(json => dispatch(loadKeywordPermsSuccess(json)))
-    .catch(err => dispatch(loadKeywordPermsError(err)))
-}
+  return dispatch => {
+    dispatch(request(fileid))
 
-export const loadKeywordPermsSuccess = keywordPerms => {
-  return {
-    type: keywordConsts.LOAD_KEYWORD_PERMS_SUCC,
-    keywordPerms,
+    if (!fileid) {
+      dispatch(failure('Error: No File Selected'))
+      return
+    }
+
+    keywordsService.getGraphData(fileid).then(
+      data => dispatch(success(data)),
+      err => dispatch(failure(err)))
   }
 }
 
-export const loadKeywordPermsError = error => {
-  return {
-    type: keywordConsts.LOAD_KEYWORD_PERMS_ERR,
-    error,
+export const getPermData = (fileid, keywords) => {
+  const request = (fileid, keywords) => {
+    return {
+      type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
+      fileid,
+      keywords,
+    }
+  }
+  const success = keywordPerms => {
+    return {
+      type: keywordConsts.LOAD_KEYWORD_PERMS_SUCC,
+      keywordPerms,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: keywordConsts.LOAD_KEYWORD_PERMS_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(fileid, keywords))
+
+    if (!fileid || !keywords) {
+      dispatch(failure("Error: Require fileid and keywords"))
+      return
+    }
+
+    keywordsService.getPermData(fileid, keywords).then(
+      data => dispatch(success(data)),
+      err => dispatch(failure(err)))
   }
 }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component }  from 'react'
-import { fetchKeywordGraphData } from '../actions'
+import { getGraphData } from '../actions'
 import {
   Button,
 } from 'react-bootstrap'
@@ -20,7 +20,7 @@ class Toolbar extends Component {
     return (
       <div>
         <Button
-          onClick={() => dispatch(fetchKeywordGraphData(fileid))}>
+          onClick={() => dispatch(getGraphData(fileid))}>
           Keyword Graph
         </Button>
       </div>

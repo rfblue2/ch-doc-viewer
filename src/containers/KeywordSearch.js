@@ -6,7 +6,7 @@ import {
   ControlLabel,
   FormControl,
 } from 'react-bootstrap'
-import { fetchKeywordPerms } from '../actions'
+import { getPermData } from '../actions'
 import KeywordPermViewer from '../components/KeywordPermViewer'
 
 /**
@@ -41,7 +41,7 @@ class KeywordSearch extends Component {
   onKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
-      this.props.dispatch(fetchKeywordPerms(
+      this.props.dispatch(getPermData(
         this.props.fileid, 
         this.state.query.split(/[，,]+/).map(s => s.trim())
       ))
