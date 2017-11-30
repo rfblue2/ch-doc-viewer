@@ -42,7 +42,7 @@ def get_keyword_permutations():
       new_start = max(0, s - window)
       new_end = min(e + window, len(contents))
       permutations.append({
-        'file': file.filename,
+        'filename': file.filename,
         'fileid': str(file._id),
         'before': contents[new_start:s],
         'keyword': contents[s:e],

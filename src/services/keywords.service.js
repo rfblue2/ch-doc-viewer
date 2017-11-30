@@ -16,11 +16,11 @@ const getGraphData = fileId => {
   return fetch(url, options).then(handleResponse)
 }
 
-const getPermData = (fileId, keywords) => {
+const getPermData = (fileIds, keywords) => {
   const url = buildUrl(KEYWORDPERMS_URL,
     { 
       queryParams: { 
-        fileids: [fileId],
+        fileids: fileIds,
         keywords,
       }
     })

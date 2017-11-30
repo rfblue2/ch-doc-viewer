@@ -36,11 +36,11 @@ export const getGraphData = fileId => {
   }
 }
 
-export const getPermData = (fileId, keywords) => {
-  const request = (fileId, keywords) => {
+export const getPermData = (fileIds, keywords) => {
+  const request = (fileIds, keywords) => {
     return {
       type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
-      fileId,
+      fileIds,
       keywords,
     }
   }
@@ -59,14 +59,14 @@ export const getPermData = (fileId, keywords) => {
   }
 
   return dispatch => {
-    dispatch(request(fileId, keywords))
+    dispatch(request(fileIds, keywords))
 
-    if (!fileId || !keywords) {
-      dispatch(failure("Error: Require fileId and keywords"))
+    if (!fileIds || fileIds === [] || !keywords) {
+      dispatch(failure("Error: Require fileIds and keywords"))
       return
     }
 
-    keywordsService.getPermData(fileId, keywords).then(
+    keywordsService.getPermData(fileIds, keywords).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err)))
   }

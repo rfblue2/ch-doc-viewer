@@ -15,12 +15,13 @@ const KeywordPermViewer = ({ keywordPerms }) => (
   </ul>
 )
 
-KeywordPermViewer.proptypes = {
+KeywordPermViewer.propTypes = {
     keywordPerms: PropTypes.arrayOf(
       PropTypes.shape({
         before: PropTypes.string.isRequired,
         keyword: PropTypes.string.isRequired,
         after: PropTypes.string.isRequired,
+        filename: PropTypes.string.isRequired,
       }).isRequired
     ).isRequired,
 }
