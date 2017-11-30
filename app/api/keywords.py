@@ -1,90 +1,25 @@
 '''
 Roland Fong
-Python server that interfaces with pyMongo
+API for keyword stuffs
 '''
-from flask import Flask, jsonify, send_from_directory
-from flask import request
-from flask import json
-from flask_cors import CORS
-from pymongo import MongoClient
+from flask import Blueprint, jsonify, request
+from helpers import JSONEncoder
 from bson import ObjectId
+from database import db, fs
 from settings import APP_ROOT
 import networkx as nx
-import gridfs
-import json
-import os
 import re
+import os
 
-BUILD_DIR = 'build'
-app = Flask(__name__, static_folder=BUILD_DIR)
-cors = CORS(app)
-MONGO_URI = os.environ.get('MONGODB_URI', 'mongodb://localhost')
-client = MongoClient(MONGO_URI)
-db = client['heroku_g229m5gt' if ('MONGODB_URI' in os.environ) else 'chineseDB']
-fs = gridfs.GridFS(db)
+keywords_api = Blueprint('keywords_api', __name__)
+
 matcher = re.compile(r'[\u4e00-\u9fff]+')
 
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        return json.JSONEncoder.default(self, o)
+# TODO move this to helpers
 
 ################################################################################
 
-# Serve React App
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def serve(path):
-    if(path == ""):
-        return send_from_directory(BUILD_DIR, 'index.html')
-    else:
-        if(os.path.exists(BUILD_DIR + '/' + path)):
-            return send_from_directory(BUILD_DIR, path)
-        else:
-            return send_from_directory(BUILD_DIR, 'index.html')
-
-################################################################################
-
-@app.route('/files', methods=['POST'])
-def save_upload():
-  file = request.files['file']
-  filename = file.filename
-  fileid = fs.put(file, filename=filename)
-  return json.dumps({
-    'filename': filename, 
-    'id': str(fileid)
-  }), 200, {'ContentType':'application/json'} 
-
-################################################################################
-
-@app.route('/files', methods=['GET'])
-def get_filenames():
-  files = list(db.fs.files.find({}, ['_id', 'filename']))
-  return JSONEncoder().encode(files)
-
-################################################################################
-
-@app.route('/files/<fileid>', methods=['GET'])
-def get_file(fileid):
-  file = fs.find_one({'_id': ObjectId(fileid)})
-  return json.dumps({
-    'id': fileid, 
-    'filename': file.filename, 
-    'text': str(file.read(), encoding='utf-8'),
-  }), 200, {'ContentType':'application/json'}  
-
-################################################################################
-
-@app.route('/files/<fileid>', methods=['DELETE'])
-def delete_file(fileid):
-  file = fs.delete(ObjectId(fileid))
-  return json.dumps({'id': fileid}), 200, {'ContentType':'application/json'} 
-
-
-################################################################################
-
-@app.route('/keywordperm', methods=['GET'])
+@keywords_api.route('/keywordperm', methods=['GET'])
 def get_keyword_permutations():
   all_args = request.args.to_dict()
   fileid = all_args['fileid']
@@ -114,7 +49,7 @@ def get_keyword_permutations():
 
 ################################################################################
 
-@app.route('/keywordgraph', methods=['GET'])
+@keywords_api.route('/keywordgraph', methods=['GET'])
 def get_keyword_graph():
   # TODO query param for window size
   all_args = request.args.to_dict()
@@ -190,6 +125,7 @@ def get_keyword_graph():
 
 ################################################################################
 
+@keywords_api.route('/keywords', methods=['GET'])
 def get_keywords(fileid):
   # TODO implement by implementing pagerank on keyword graph
   return {}, 501

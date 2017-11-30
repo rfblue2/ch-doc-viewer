@@ -10,18 +10,20 @@ const get = id => {
 
 const getAll = () => {
   const options = { mode: 'cors' }
-  return fetch(FILE_URL, options).then(handleResponse)
+  const url =  buildUrl(FILE_URL, { path: '/' })
+  return fetch(url, options).then(handleResponse)
 }
 
 const upload = file => {
   var form = new FormData()
   form.append('file', file)
+  const url =  buildUrl(FILE_URL, { path: '/' })
   const options = {
     mode: 'cors',
     method: 'POST',
     body: form,
   }
-  return fetch(FILE_URL, options).then(handleResponse)
+  return fetch(url, options).then(handleResponse)
 }
 
 const remove = id => {
