@@ -20,6 +20,7 @@ def get_keyword_permutations():
   all_args = request.args.to_dict()
   fileids = re.split(',', all_args['fileids'])
   keywords = re.split('[，,]+', all_args['keywords'])
+  keywords = list(filter(None, keywords))
   window = int(all_args.get('window', 5)) # get n chars before after keyword 
 
   files = fs.find({
