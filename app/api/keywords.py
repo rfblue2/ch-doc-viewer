@@ -15,34 +15,39 @@ keywords_api = Blueprint('keywords_api', __name__)
 
 matcher = re.compile(r'[\u4e00-\u9fff]+')
 
-# TODO move this to helpers
-
-################################################################################
-
 @keywords_api.route('/keywordperm', methods=['GET'])
 def get_keyword_permutations():
   all_args = request.args.to_dict()
-  fileid = all_args['fileid']
+  fileids = re.split(',', all_args['fileids'])
   keywords = re.split('[，,]+', all_args['keywords'])
   window = int(all_args.get('window', 5)) # get n chars before after keyword 
 
-  file = fs.find_one({'_id': ObjectId(fileid)})
-  contents = file.read().decode('utf-8')
-  # find the start/end indices of keywords
-  indices = []
-  for keyword in keywords:
-    indices = indices + [(m.start(), m.end()) for m in re.finditer(keyword, contents)]
+  files = fs.find({
+    '_id': {
+      '$in' : list(map(lambda x : ObjectId(x), fileids))
+    }
+  })
 
-  # obtain strings of certain length
   permutations = []
-  for s,e in indices:
-    new_start = max(0, s - window)
-    new_end = min(e + window, len(contents))
-    permutations.append({
-      'before': contents[new_start:s],
-      'keyword': contents[s:e],
-      'after': contents[e:new_end]
-    })
+
+  for file in files:
+    contents = file.read().decode('utf-8')
+    # find the start/end indices of keywords
+    indices = []
+    for keyword in keywords:
+      indices = indices + [(m.start(), m.end()) for m in re.finditer(keyword, contents)]
+
+    # obtain strings of certain length
+    for s,e in indices:
+      new_start = max(0, s - window)
+      new_end = min(e + window, len(contents))
+      permutations.append({
+        'file': file.filename,
+        'fileid': str(file._id),
+        'before': contents[new_start:s],
+        'keyword': contents[s:e],
+        'after': contents[e:new_end]
+      })
 
   return jsonify(permutations)
 
@@ -53,10 +58,13 @@ def get_keyword_permutations():
 def get_keyword_graph():
   # TODO query param for window size
   all_args = request.args.to_dict()
-  fileid = all_args['fileid']
+  fileids = re.split(',', all_args['fileids'])
   window = all_args.get('window', 2)
-  file = fs.find_one({'_id': ObjectId(fileid)})
-  contents = file.read().decode("utf-8") 
+  files = fs.find({
+    '_id': {
+      '$in' : list(map(lambda x : ObjectId(x), fileids))
+    }
+  })
 
   stopwords = []
   with open(os.path.join(APP_ROOT, './static/stopwords.txt'), 'r') as stop_file:
@@ -88,15 +96,22 @@ def get_keyword_graph():
           i = i + 1
           continue
         c = text[i]
-        if i < len(text) - 1:
-          bigram = c + text[i+1]
-          if bigram in dictionary:
-            words.append(bigram)
-            i = i + 1
-          elif c in dictionary:
-            words.append(c)
-        elif c in dictionary:
+
+        # only allows unigrams:
+        if c in dictionary:
           words.append(c)
+
+        # allows for bigrams:
+        # if i < len(text) - 1:
+        #   bigram = c + text[i+1]
+        #   if bigram in dictionary:
+        #     words.append(bigram)
+        #     i = i + 1
+        #   elif c in dictionary:
+        #     words.append(c)
+        # elif c in dictionary:
+        #   words.append(c)
+        
         i = i + 1
 
       return words
@@ -110,7 +125,10 @@ def get_keyword_graph():
     while i < len(words):
       for j in range(1, d):
         if (i + j < len(words)):
-          g.add_edge(words[i], words[i + j])
+          if (words[i + j] == '\0'):
+            j = d # reached end of a document, jump out
+          else:
+            g.add_edge(words[i], words[i + j])
       i = i + 1
 
     nx.set_node_attributes(g, name='degree', values=dict(nx.degree(g)))
@@ -119,6 +137,8 @@ def get_keyword_graph():
 
   ##############################################################################
 
+  # concat the contents of all the files, separated by null char
+  contents = '\0'.join(list(map(lambda f: f.read().decode('utf-8'), files)))
   graph = create_col_graph(contents)
 
   return jsonify(nx.node_link_data(graph))

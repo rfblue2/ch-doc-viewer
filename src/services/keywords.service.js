@@ -7,14 +7,23 @@ import {
 
 const getGraphData = fileid => {
   const url = buildUrl(KEYWORDGRAPH_URL,
-    { queryParams: { fileid } })
+    { 
+      queryParams: { 
+        fileids: [fileid],
+      }
+    })
   const options = { mode: 'cors' }
   return fetch(url, options).then(handleResponse)
 }
 
 const getPermData = (fileid, keywords) => {
   const url = buildUrl(KEYWORDPERMS_URL,
-    { queryParams: { fileid, keywords } })
+    { 
+      queryParams: { 
+        fileids: [fileid],
+        keywords,
+      }
+    })
   const options = { mode: 'cors' }
   return fetch(url, options).then(handleResponse)
 }
