@@ -26,13 +26,14 @@ class VisibleFileList extends Component {
   }
 
   render() {
-    const { files, onFileClick, onRemoveClick } = this.props
+    const { files, onFileClick, onRemoveClick, selectedId } = this.props
     return (
       <div>
         <FileList 
           files={files} 
           onFileClick={onFileClick}
-          onRemoveClick={onRemoveClick} /> 
+          onRemoveClick={onRemoveClick}
+          selectedId={selectedId}/>
       </div>
     )
   }
@@ -40,7 +41,8 @@ class VisibleFileList extends Component {
 
 const mapStateToProps = state => {
   return {
-    files: state.files
+    files: state.files.filelist,
+    selectedId: state.files.selectedId,
   }
 }
 

@@ -3,7 +3,7 @@ import { fileConsts } from '../constants'
 
 const defaultState = {
   editorState: EditorState.createEmpty(), 
-  filename: 'No File Selected'
+  filename: 'No File Selected',
 }
 
 const editor = (state=defaultState , action) => {

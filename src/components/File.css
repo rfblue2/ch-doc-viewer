@@ -8,6 +8,11 @@
   flex: 1;
   flex-direction: row; }
 
+.selected {
+  border-style: solid;
+  border-color: #3c3c3c;
+  border-width: 2px; }
+
 .file:hover {
   background-color: #ddd;
   cursor: pointer; }

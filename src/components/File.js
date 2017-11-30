@@ -6,9 +6,9 @@ import './File.css'
  * Represents an individual file in the file list that you can click
  * to view the file (or remove it)
  */
-const File = ({ file, onFileClick, onRemoveClick }) => (
+const File = ({ file, onFileClick, onRemoveClick, selected }) => (
   <div 
-    className='file'
+    className={ 'file' + (selected ? ' selected' : '') }
     onClick={onFileClick} >
     <span 
       className='remove'
@@ -22,6 +22,7 @@ const File = ({ file, onFileClick, onRemoveClick }) => (
 )
 
 File.propTypes = {
+  selected: PropTypes.bool.isRequired,
   file: PropTypes.shape({
     filename: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired
