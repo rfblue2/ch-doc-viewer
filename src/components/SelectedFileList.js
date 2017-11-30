@@ -10,7 +10,6 @@ import {
  */
 const SelectedFileList = ({files, onSelectFile, viewedFileId}) => (
   <ButtonGroup>
-    {console.log(JSON.stringify(files))}
     {files.map(f =>
       <Button
         key={f.id}

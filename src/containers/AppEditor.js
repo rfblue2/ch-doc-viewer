@@ -14,7 +14,7 @@ import './AppEditor.css'
 class AppEditor extends Component {
   static propTypes = {
     filename: PropTypes.string.isRequired,
-    fileid: PropTypes.string.isRequired,
+    fileId: PropTypes.string.isRequired,
     editorState: PropTypes.object.isRequired,
     onSaveEditorState: PropTypes.func.isRequired,
     selectedFiles: PropTypes.arrayOf(
@@ -31,7 +31,7 @@ class AppEditor extends Component {
       editorState,
       onSaveEditorState,
       filename,
-      fileid,
+      fileId,
       selectedFiles,
       onSelectFile, // select file from selected files to view
     } = this.props
@@ -40,7 +40,7 @@ class AppEditor extends Component {
         <SelectedFileList
           files={selectedFiles}
           onSelectFile={onSelectFile}
-          viewedFileId={fileid}
+          viewedFileId={fileId}
         />
         <h2>{filename}</h2>
         <Editor
@@ -58,7 +58,7 @@ const mapStateToProps = state => {
     editorState: state.editor.editorState,
     filename: state.editor.filename,
     selectedFiles: state.files.selectedFiles,
-    fileid: state.editor.fileid,
+    fileId: state.editor.visibleFileId,
   }
 }
 
@@ -70,8 +70,8 @@ const mapDispatchToProps = dispatch => {
         editorState: editorState,
       })
     },
-    onSelectFile: (fileid) => {
-      dispatch(fileActions.get(fileid))
+    onSelectFile: (fileId) => {
+      dispatch(fileActions.get(fileId))
     }
   }
 }

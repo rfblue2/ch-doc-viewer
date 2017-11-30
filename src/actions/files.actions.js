@@ -2,17 +2,17 @@ import { fileConsts } from '../constants'
 import { filesService } from '../services'
 
 const select = id => {
-  const request = fileid => {
+  const request = fileId => {
     return {
       type: fileConsts.SELECT_FILE_REQ,
-      fileid,
+      fileId,
     }
   }
 
-  const success = (fileid, filename) => {
+  const success = (fileId, filename) => {
     return {
       type: fileConsts.SELECT_FILE_SUCC,
-      fileid,
+      fileId,
       filename,
     }
   }
@@ -36,17 +36,17 @@ const select = id => {
 }
 
 const get = id => {
-  const request = fileid => {
+  const request = fileId => {
     return {
       type: fileConsts.GET_FILE_REQ,
-      fileid,
+      fileId,
     }
   }
 
-  const success = (fileid, filename, content) => {
+  const success = (fileId, filename, content) => {
     return {
       type: fileConsts.GET_FILE_SUCC,
-      fileid,
+      fileId,
       filename,
       content
     }
@@ -109,11 +109,11 @@ const upload = file => {
     }
   }
 
-  const success = (filename, fileid) => {
+  const success = (filename, fileId) => {
     return {
       type: fileConsts.UPLOAD_FILE_SUCC,
       filename,
-      fileid,
+      fileId,
     }
   }
 
@@ -135,17 +135,17 @@ const upload = file => {
 }
 
 const remove = id => {
-  const request = fileid => {
+  const request = fileId => {
     return {
       type: fileConsts.DELETE_FILE_REQ,
-      fileid,
+      fileId,
     }
   }
 
-  const success = fileid => {
+  const success = fileId => {
     return {
       type: fileConsts.DELETE_FILE_SUCC,
-      fileid,
+      fileId,
     }
   }
 
@@ -169,7 +169,7 @@ const remove = id => {
 const unselect = id => {
   return {
     type: fileConsts.UNSELECT_FILE,
-    fileid: id,
+    fileId: id,
   }
 }
 

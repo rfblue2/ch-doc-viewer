@@ -14,7 +14,7 @@ import KeywordPermViewer from '../components/KeywordPermViewer'
  */
 class KeywordSearch extends Component {
   static propTypes = {
-    fileid: PropTypes.string,
+    fileId: PropTypes.string,
     keywordPerms: PropTypes.arrayOf(
       PropTypes.shape({
         before: PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ class KeywordSearch extends Component {
     if (e.key === 'Enter') {
       e.preventDefault()
       this.props.dispatch(getPermData(
-        this.props.fileid, 
+        this.props.fileId,
         this.state.query.split(/[，,]+/).map(s => s.trim())
       ))
     }
@@ -79,7 +79,7 @@ class KeywordSearch extends Component {
 const mapStateToProps = state => {
   return {
     keywordPerms: state.keywords.permData,
-    fileid: state.keywords.fileid,
+    fileId: state.keywords.fileId,
   }
 }
 

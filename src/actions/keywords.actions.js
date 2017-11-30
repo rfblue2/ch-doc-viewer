@@ -1,11 +1,11 @@
 import { keywordsService } from '../services'
 import { keywordConsts } from '../constants'
 
-export const getGraphData = fileid => {
-  const request = fileid => {
+export const getGraphData = fileId => {
+  const request = fileId => {
     return {
       type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
-      fileid,
+      fileId,
     }
   }
   const success = graphData => {
@@ -23,24 +23,24 @@ export const getGraphData = fileid => {
   }
 
   return dispatch => {
-    dispatch(request(fileid))
+    dispatch(request(fileId))
 
-    if (!fileid) {
+    if (!fileId) {
       dispatch(failure('Error: No File Selected'))
       return
     }
 
-    keywordsService.getGraphData(fileid).then(
+    keywordsService.getGraphData(fileId).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err)))
   }
 }
 
-export const getPermData = (fileid, keywords) => {
-  const request = (fileid, keywords) => {
+export const getPermData = (fileId, keywords) => {
+  const request = (fileId, keywords) => {
     return {
       type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
-      fileid,
+      fileId,
       keywords,
     }
   }
@@ -59,14 +59,14 @@ export const getPermData = (fileid, keywords) => {
   }
 
   return dispatch => {
-    dispatch(request(fileid, keywords))
+    dispatch(request(fileId, keywords))
 
-    if (!fileid || !keywords) {
-      dispatch(failure("Error: Require fileid and keywords"))
+    if (!fileId || !keywords) {
+      dispatch(failure("Error: Require fileId and keywords"))
       return
     }
 
-    keywordsService.getPermData(fileid, keywords).then(
+    keywordsService.getPermData(fileId, keywords).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err)))
   }

@@ -4,7 +4,7 @@ const files = (state = {
   fileList: [],
   selectedFiles: [], // only ids and names
 }, action) => {
-  let { type, files, fileid, filename } = action
+  let { type, files, fileId, filename } = action
   switch (type) {
     case fileConsts.GETALL_FILES_SUCC:
       return {
@@ -18,14 +18,14 @@ const files = (state = {
           ...state.fileList,
           {
             filename: filename,
-            _id: fileid,
+            _id: fileId,
           }
         ]
       }
     case fileConsts.DELETE_FILE_SUCC:
       return {
         ...state,
-        fileList: state.fileList.filter(x => x._id !== fileid),
+        fileList: state.fileList.filter(x => x._id !== fileId),
       }
     case fileConsts.SELECT_FILE_SUCC:
       return {
@@ -33,7 +33,7 @@ const files = (state = {
         selectedFiles: [
           ...state.selectedFiles,
           {
-            id: fileid,
+            id: fileId,
             filename,
           },
         ],
@@ -41,7 +41,7 @@ const files = (state = {
     case fileConsts.UNSELECT_FILE:
       return {
         ...state,
-        selectedFiles: state.selectedFiles.filter(x => x.id !== fileid),
+        selectedFiles: state.selectedFiles.filter(x => x.id !== fileId),
       }
     default:
       return state

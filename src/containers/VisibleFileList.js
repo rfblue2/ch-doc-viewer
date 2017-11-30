@@ -54,19 +54,19 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFileClick: (fileid, isSelected) => {
+    onFileClick: (fileId, isSelected) => {
       if (isSelected) {
-        dispatch(fileActions.unselect(fileid))
+        dispatch(fileActions.unselect(fileId))
       } else {
-        dispatch(fileActions.select(fileid))
+        dispatch(fileActions.select(fileId))
       }
     },
-    onRemoveClick: (fileid, isSelected) => e => {
+    onRemoveClick: (fileId, isSelected) => e => {
       e.stopPropagation()
       if (isSelected) {
-        dispatch(fileActions.unselect(fileid))
+        dispatch(fileActions.unselect(fileId))
       }
-      dispatch(fileActions.remove(fileid))
+      dispatch(fileActions.remove(fileId))
     },
     dispatch: dispatch
   }

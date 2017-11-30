@@ -11,16 +11,16 @@ import {
  */
 class Toolbar extends Component {
   static propTypes = {
-    fileid: PropTypes.string,
+    fileId: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
   }
 
   render() {
-    const { fileid, dispatch } = this.props
+    const { fileId, dispatch } = this.props
     return (
       <div>
         <Button
-          onClick={() => dispatch(getGraphData(fileid))}>
+          onClick={() => dispatch(getGraphData(fileId))}>
           Keyword Graph
         </Button>
       </div>
@@ -30,7 +30,7 @@ class Toolbar extends Component {
 
 const mapStateToProps = state => {
   return {
-    fileid: state.keywords.fileid,
+    fileId: state.keywords.fileId,
   }
 }
 

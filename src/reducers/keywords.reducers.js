@@ -13,7 +13,7 @@ const keywords = (state = {
         ...state,
         permData: [],
         graphData: null,
-        fileid: action.fileid,
+        fileId: action.fileId,
       }
     case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC:
       return {
@@ -37,7 +37,7 @@ const keywords = (state = {
         ...state,
         permData: [],
         graphData: null,
-        fileid: null,
+        fileId: null,
       }
     default:
       return state

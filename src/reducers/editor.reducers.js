@@ -4,11 +4,11 @@ import { fileConsts } from '../constants'
 const defaultState = {
   editorState: EditorState.createEmpty(), 
   filename: 'No File Selected',
-  fileid: '',
+  visibleFileId: '',
 }
 
 const editor = (state=defaultState , action) => {
-  let { type, editorState, content, filename, fileid } = action
+  let { type, editorState, content, filename, fileId } = action
   switch (type) {
     case 'UPDATE_EDITOR_STATE':
       return {
@@ -21,11 +21,11 @@ const editor = (state=defaultState , action) => {
         ...state,
         editorState,
         filename,
-        fileid,
+        visibleFileId: fileId,
       }
     case fileConsts.UNSELECT_FILE:
     case fileConsts.DELETE_FILE_SUCC:
-      if (fileid === state.fileid) {
+      if (fileId === state.visibleFileId) {
         return defaultState
       } else {
         return state
