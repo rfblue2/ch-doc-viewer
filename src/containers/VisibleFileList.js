@@ -17,7 +17,13 @@ class VisibleFileList extends Component {
     ).isRequired,
     onFileClick: PropTypes.func.isRequired,
     onRemoveClick: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    selectedFiles: PropTypes.arrayOf(
+      PropTypes.shape(
+        PropTypes.string.isRequired,
+        PropTypes.string.isRequired,
+      )
+    ).isRequired,
   }
    
   componentDidMount() {
@@ -26,14 +32,14 @@ class VisibleFileList extends Component {
   }
 
   render() {
-    const { files, onFileClick, onRemoveClick, selectedId } = this.props
+    const { files, onFileClick, onRemoveClick, selectedFiles } = this.props
     return (
       <div>
         <FileList 
           files={files} 
           onFileClick={onFileClick}
           onRemoveClick={onRemoveClick}
-          selectedId={selectedId}/>
+          selectedFiles={selectedFiles}/>
       </div>
     )
   }
@@ -41,18 +47,25 @@ class VisibleFileList extends Component {
 
 const mapStateToProps = state => {
   return {
-    files: state.files.filelist,
-    selectedId: state.files.selectedId,
+    files: state.files.fileList,
+    selectedFiles: state.files.selectedFiles,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFileClick: fileid => {
-      dispatch(fileActions.get(fileid))
+    onFileClick: (fileid, isSelected) => {
+      if (isSelected) {
+        dispatch(fileActions.unselect(fileid))
+      } else {
+        dispatch(fileActions.select(fileid))
+      }
     },
-    onRemoveClick: fileid => e => {
+    onRemoveClick: (fileid, isSelected) => e => {
       e.stopPropagation()
+      if (isSelected) {
+        dispatch(fileActions.unselect(fileid))
+      }
       dispatch(fileActions.remove(fileid))
     },
     dispatch: dispatch

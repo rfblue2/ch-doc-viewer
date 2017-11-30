@@ -118,7 +118,7 @@ class KeywordGraphViewer extends Component {
     return (
       <svg 
         ref={node => this.node = node}
-        width={1000}
+        width={800}
         height={500}
       />
     )

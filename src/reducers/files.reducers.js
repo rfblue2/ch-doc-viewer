@@ -1,21 +1,21 @@
 import { fileConsts } from '../constants'
 
 const files = (state = {
-  filelist: [],
-  selectedId: '',
+  fileList: [],
+  selectedFiles: [], // only ids and names
 }, action) => {
   let { type, files, fileid, filename } = action
   switch (type) {
     case fileConsts.GETALL_FILES_SUCC:
       return {
         ...state,
-        filelist: files,
+        fileList: files,
       }
     case fileConsts.UPLOAD_FILE_SUCC:
       return {
         ...state,
-        filelist: [
-          ...state.filelist,
+        fileList: [
+          ...state.fileList,
           {
             filename: filename,
             _id: fileid,
@@ -25,12 +25,23 @@ const files = (state = {
     case fileConsts.DELETE_FILE_SUCC:
       return {
         ...state,
-        filelist: state.filelist.filter(x => x._id !== fileid),
+        fileList: state.fileList.filter(x => x._id !== fileid),
       }
-    case fileConsts.GET_FILE_SUCC:
+    case fileConsts.SELECT_FILE_SUCC:
       return {
         ...state,
-        selectedId: fileid,
+        selectedFiles: [
+          ...state.selectedFiles,
+          {
+            id: fileid,
+            filename,
+          },
+        ],
+      }
+    case fileConsts.UNSELECT_FILE:
+      return {
+        ...state,
+        selectedFiles: state.selectedFiles.filter(x => x.id !== fileid),
       }
     default:
       return state

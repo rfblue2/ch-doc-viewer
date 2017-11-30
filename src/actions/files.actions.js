@@ -1,6 +1,40 @@
 import { fileConsts } from '../constants'
 import { filesService } from '../services'
 
+const select = id => {
+  const request = fileid => {
+    return {
+      type: fileConsts.SELECT_FILE_REQ,
+      fileid,
+    }
+  }
+
+  const success = (fileid, filename) => {
+    return {
+      type: fileConsts.SELECT_FILE_SUCC,
+      fileid,
+      filename,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: fileConsts.SELECT_FILE_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(id))
+
+    filesService.get(id).then(
+      file => dispatch(success(file.id, file.filename)),
+      error => dispatch(failure(error))
+    )
+  }
+
+}
+
 const get = id => {
   const request = fileid => {
     return {
@@ -100,13 +134,6 @@ const upload = file => {
   }
 }
 
-export const displayFile = filename => {
-  return {
-    type: 'DISPLAY_FILE',
-    filename
-  }
-}
-
 const remove = id => {
   const request = fileid => {
     return {
@@ -139,9 +166,25 @@ const remove = id => {
   }
 }
 
+const unselect = id => {
+  return {
+    type: fileConsts.UNSELECT_FILE,
+    fileid: id,
+  }
+}
+
+export const displayFile = filename => {
+  return {
+    type: 'DISPLAY_FILE',
+    filename
+  }
+}
+
 export const fileActions = {
+  select,
   get,
   getAll,
   upload,
   remove,
+  unselect,
 }

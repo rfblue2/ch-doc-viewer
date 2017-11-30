@@ -9,10 +9,10 @@ import './File.css'
 const File = ({ file, onFileClick, onRemoveClick, selected }) => (
   <div 
     className={ 'file' + (selected ? ' selected' : '') }
-    onClick={onFileClick} >
-    <span 
+    onClick={() => onFileClick(file._id, selected)} >
+    <span
       className='remove'
-      onClick={onRemoveClick} >
+      onClick={onRemoveClick(file._id, selected)} >
       &#10006;
     </span>
     <div className='filelink' >

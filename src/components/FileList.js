@@ -7,15 +7,15 @@ import './FileList.css'
  * Represents a generic list of files, requiring action for clicking a
  * a file or removing it
  */
-const FileList = ({ files, onFileClick, onRemoveClick, selectedId }) => (
+const FileList = ({ files, onFileClick, onRemoveClick, selectedFiles }) => (
   <div>
     {files.map((file, i) => (
       <File 
         key={i} 
-        onFileClick={() => onFileClick(file._id)} 
-        onRemoveClick={onRemoveClick(file._id)}
+        onFileClick={onFileClick}
+        onRemoveClick={onRemoveClick}
         file={file}
-        selected={file._id === selectedId}
+        selected={selectedFiles.map(f => f.id).includes(file._id)}
       />
     ))}
   </div>
@@ -30,7 +30,12 @@ FileList.propTypes = {
   ).isRequired,
   onFileClick: PropTypes.func.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
-  selectedId: PropTypes.string.isRequired,
+  selectedFiles: PropTypes.arrayOf(
+    PropTypes.shape(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired,
+    )
+  ).isRequired,
 }
 
 export default FileList
