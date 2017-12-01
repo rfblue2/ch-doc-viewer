@@ -85,8 +85,8 @@ def get_keyword_graph():
 
   d = window # window to look for adj words
 
-  # create graph from text
-  def create_col_graph(text):
+  # create graph from texts
+  def create_col_graph(texts):
 
     # split the text into an array of words given dictionary (array) for that text
     def segment_text(text, dictionary):
@@ -117,20 +117,21 @@ def get_keyword_graph():
 
       return words
 
-    words = segment_text(text, full_dictionary)
-
     g = nx.DiGraph()
-    g.add_nodes_from(list(set(words)))
 
-    i = 0
-    while i < len(words):
-      for j in range(1, d):
-        if (i + j < len(words)):
-          if (words[i + j] == '\0'):
-            j = d # reached end of a document, jump out
-          else:
+    for text in texts:
+      words = segment_text(text, full_dictionary)
+
+      g.add_nodes_from(list(set(words)))
+
+      i = 0
+      while i < len(words):
+        for j in range(1, d):
+          if (i + j < len(words)):
+            if (words[i + j] == '\0'):
+              break
             g.add_edge(words[i], words[i + j])
-      i = i + 1
+        i = i + 1
 
     nx.set_node_attributes(g, name='degree', values=dict(nx.degree(g)))
 
@@ -139,8 +140,8 @@ def get_keyword_graph():
   ##############################################################################
 
   # concat the contents of all the files, separated by null char
-  contents = '\0'.join(list(map(lambda f: f.read().decode('utf-8'), files)))
-  graph = create_col_graph(contents)
+  texts = list(map(lambda f: f.read().decode('utf-8'), files))
+  graph = create_col_graph(texts)
 
   return jsonify(nx.node_link_data(graph))
 

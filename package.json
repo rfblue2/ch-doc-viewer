@@ -5,6 +5,7 @@
   "dependencies": {
     "build-url": "^1.0.10",
     "d3": "^4.11.0",
+    "d3-scale-chromatic": "^1.1.1",
     "draft-js": "^0.10.3",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",

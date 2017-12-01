@@ -14,7 +14,7 @@ const SelectedFileList = ({files, onSelectFile, viewedFileId}) => (
       <Button
         key={f.id}
         onClick={() => onSelectFile(f.id)}
-        disabled={viewedFileId === f.id}>
+        active={viewedFileId === f.id}>
         {f.filename}
       </Button>)
     }

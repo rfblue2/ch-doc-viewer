@@ -1,4 +1,4 @@
-import * as d3 from "d3"
+import * as d3 from 'd3'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -28,9 +28,11 @@ class KeywordGraphViewer extends Component {
     width = +svg.attr("width"),
     height = +svg.attr("height")
 
-    var color = d3.scaleOrdinal(d3.schemeCategory20)
+    const maxDeg = Math.max.apply(Math, graph.nodes.map(n => n.degree))
 
-    var radius = 5 
+    const color = t => d3.interpolateWarm(t)
+
+    const radius = 2
 
     var simulation = d3.forceSimulation()
       .force("link", d3.forceLink().id(d => d.id))
@@ -56,14 +58,15 @@ class KeywordGraphViewer extends Component {
           .on("end", dragended))
 
     node.append("circle")
-        .attr("r", radius)
-        .attr("fill", d => color(d.degree))
+        .attr("r", d => radius * d.degree)
+        .attr("fill", d => {
+          console.log(maxDeg)
+          return color(1 - d.degree / maxDeg)
+        })
 
     node.append("text")
-        .attr("dx", 12)
-        .attr("dy", ".35em")
         .text(d => d.id)
-        .style('font-size', d => d.degree * 5)
+        .style('font-size', d => (d.degree * 2 + 7) + 'px')
 
     simulation
       .nodes(graph.nodes)
