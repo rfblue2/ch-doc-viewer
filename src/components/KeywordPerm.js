@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import './KeywordPerm.css'
 
 /**
  * Represents a single keyword permutation
  */
 const KeywordPerm = ({ before, keyword, after, filename }) => (
-  <li>
-    {filename}: { before } <b>{ keyword }</b> { after }
+  <li class='keyword_perm row'>
+    <div class='filename col-sm-3'>{filename}:</div>
+    <div class='context col-sm-6'>
+      <span class='before'>{ before }</span>
+      <span class='keyword'><b>{ keyword }</b></span>
+      <span class='after'>{ after }</span>
+    </div>
   </li>
 )
 
