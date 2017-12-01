@@ -41,9 +41,13 @@ class KeywordSearch extends Component {
   onKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
+      const keywords = this.state.query
+        .split(/[，,]+/)
+        .map(s => s.trim())
+        .filter(Boolean)
       this.props.dispatch(getPermData(
         this.props.fileIds,
-        this.state.query.split(/[，,]+/).map(s => s.trim())
+        keywords,
       ))
     }
   }

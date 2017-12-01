@@ -61,8 +61,11 @@ export const getPermData = (fileIds, keywords) => {
   return dispatch => {
     dispatch(request(fileIds, keywords))
 
-    if (!fileIds || fileIds === [] || !keywords) {
-      dispatch(failure("Error: Require fileIds and keywords"))
+    if (!fileIds ||
+        fileIds.length <= 0 ||
+        !keywords ||
+        keywords.length <= 0) {
+      dispatch(failure('Please select a file and enter a keyword'))
       return
     }
 
