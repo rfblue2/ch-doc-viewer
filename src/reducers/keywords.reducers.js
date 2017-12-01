@@ -24,6 +24,13 @@ const keywords = (state = {
       return {
         ...state,
         permData: action.keywordPerms,
+        error: null,
+      }
+    case fileConsts.GET_FILE_SUCC:
+    case fileConsts.SELECT_FILE_SUCC:
+      return {
+        ...state,
+        error: null
       }
     case fileConsts.DELETE_FILE_SUCC: /* fall-thru */
     case fileConsts.UNSELECT_FILE:
@@ -31,6 +38,7 @@ const keywords = (state = {
         ...state,
         permData: [],
         graphData: null,
+        error: null,
       }
     default:
       return state
