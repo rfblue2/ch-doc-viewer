@@ -5,11 +5,11 @@ import {
   KEYWORDPERMS_URL,
 } from '../constants'
 
-const getGraphData = fileId => {
+const getGraphData = fileIds => {
   const url = buildUrl(KEYWORDGRAPH_URL,
     { 
       queryParams: { 
-        fileids: [fileId],
+        fileids: fileIds,
       }
     })
   const options = { mode: 'cors' }

@@ -8,13 +8,6 @@ const keywords = (state = {
   graphData: null,
 }, action) => {
   switch(action.type) {
-    case fileConsts.GET_FILE_SUCC:
-      return {
-        ...state,
-        permData: [],
-        graphData: null,
-        fileId: action.fileId,
-      }
     case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC:
       return {
         ...state,
@@ -32,12 +25,12 @@ const keywords = (state = {
         ...state,
         permData: action.keywordPerms,
       }
-    case fileConsts.DELETE_FILE_SUCC:
+    case fileConsts.DELETE_FILE_SUCC: /* fall-thru */
+    case fileConsts.UNSELECT_FILE:
       return {
         ...state,
         permData: [],
         graphData: null,
-        fileId: null,
       }
     default:
       return state

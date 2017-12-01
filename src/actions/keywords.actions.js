@@ -1,11 +1,11 @@
 import { keywordsService } from '../services'
 import { keywordConsts } from '../constants'
 
-export const getGraphData = fileId => {
-  const request = fileId => {
+export const getGraphData = fileIds => {
+  const request = fileIds => {
     return {
       type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
-      fileId,
+      fileIds,
     }
   }
   const success = graphData => {
@@ -23,14 +23,14 @@ export const getGraphData = fileId => {
   }
 
   return dispatch => {
-    dispatch(request(fileId))
+    dispatch(request(fileIds))
 
-    if (!fileId) {
+    if (!fileIds || fileIds.length <= 0) {
       dispatch(failure('Error: No File Selected'))
       return
     }
 
-    keywordsService.getGraphData(fileId).then(
+    keywordsService.getGraphData(fileIds).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err)))
   }

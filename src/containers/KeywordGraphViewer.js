@@ -2,6 +2,10 @@ import * as d3 from "d3"
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { getGraphData } from '../actions'
+import {
+  Button,
+} from 'react-bootstrap'
 import './KeywordGraphViewer.css'
 
 /**
@@ -11,6 +15,8 @@ class KeywordGraphViewer extends Component {
   static propTypes = {
     graphData: PropTypes.object,
     error: PropTypes.string,
+    fileIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   clearGraph() {
@@ -115,12 +121,20 @@ class KeywordGraphViewer extends Component {
   }
 
   render() {
+    const { fileIds, dispatch } = this.props
     return (
-      <svg
-        ref={node => this.node = node}
-        width={800}
-        height={500}
-      />
+      <div>
+        <Button
+          onClick={() => dispatch(getGraphData(fileIds))}>
+          Keyword Graph
+        </Button>
+        <br/>
+        <svg
+          ref={node => this.node = node}
+          width={800}
+          height={500}
+        />
+      </div>
     )
 
   }
@@ -128,11 +142,19 @@ class KeywordGraphViewer extends Component {
 
 const mapStateToProps = state => {
   return {
+    fileIds: state.files.selectedFiles.map(f => f.id),
     graphData: state.keywords.graphData,
     error: state.keywords.error,
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch: dispatch
+  }
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(KeywordGraphViewer)

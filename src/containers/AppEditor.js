@@ -14,7 +14,7 @@ import './AppEditor.css'
 class AppEditor extends Component {
   static propTypes = {
     filename: PropTypes.string.isRequired,
-    fileId: PropTypes.string.isRequired,
+    fileId: PropTypes.string,
     editorState: PropTypes.object.isRequired,
     onSaveEditorState: PropTypes.func.isRequired,
     selectedFiles: PropTypes.arrayOf(
