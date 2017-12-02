@@ -7,23 +7,28 @@
 	display: flex;
 	flex: 1;
 	flex-direction: row;
+
+
+	&:hover {
+		background-color: #ddd;
+		cursor: pointer;
+	}
+
+	.remove:hover {
+		color: red;
+	}
+
+	.filelink {
+	}
 }
 
 .selected {
-	border-style: solid;
-	border-color: #3c3c3c;
-	border-width: 2px;
+    border-style: solid;
+    border-color: #3c3c3c;
+    border-width: 2px;
 }
 
-.file:hover {
-	background-color: #ddd;
-	cursor: pointer;
-}
-
-.remove:hover {
-	color: red;
-}
-
-.filelink {
+.shifted {
+    margin-left: 10px;
 }
 

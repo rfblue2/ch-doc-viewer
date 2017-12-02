@@ -32,7 +32,6 @@ const select = id => {
       error => dispatch(failure(error))
     )
   }
-
 }
 
 const get = id => {
@@ -70,10 +69,11 @@ const get = id => {
 
 }
 
-const getAll = () => {
-  const request = () => {
+const getAll = folderIds => {
+  const request = folderIds => {
     return {
       type: fileConsts.GETALL_FILES_REQ,
+      folderIds,
     }
   }
 
@@ -92,7 +92,7 @@ const getAll = () => {
   }
 
   return dispatch => {
-    dispatch(request())
+    dispatch(request(folderIds))
 
     filesService.getAll().then(
       files => dispatch(success(files)),
@@ -160,7 +160,7 @@ const remove = id => {
     dispatch(request(id))
 
     filesService.remove(id).then(
-      file => dispatch(success(file.id)),
+      file => dispatch(success(file.file_id)),
       error => dispatch(failure(error))
     )
   }

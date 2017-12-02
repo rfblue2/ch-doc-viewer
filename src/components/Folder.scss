@@ -1,22 +1,28 @@
-.file {
-  background-color: #eee;
+.folder {
+  background-color: #888;
   border-radius: 5px;
   padding: 5px;
   margin: 3px 0 3px 0;
   list-style-type: none;
   display: flex;
   flex: 1;
-  flex-direction: row; }
-  .file:hover {
+  flex-direction: row;
+
+  &:hover {
     background-color: #ddd;
-    cursor: pointer; }
-  .file .remove:hover {
-    color: red; }
+    cursor: pointer;
+  }
+
+  .remove:hover {
+    color: red;
+  }
+
+  .folderlink {
+  }
+}
 
 .selected {
   border-style: solid;
   border-color: #3c3c3c;
-  border-width: 2px; }
-
-.shifted {
-  margin-left: 10px; }
+  border-width: 2px;
+}

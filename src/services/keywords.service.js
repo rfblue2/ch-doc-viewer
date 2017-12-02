@@ -9,7 +9,7 @@ const getGraphData = fileIds => {
   const url = buildUrl(KEYWORDGRAPH_URL,
     { 
       queryParams: { 
-        fileids: fileIds,
+        file_ids: fileIds,
       }
     })
   const options = { mode: 'cors' }
@@ -20,7 +20,7 @@ const getPermData = (fileIds, keywords) => {
   const url = buildUrl(KEYWORDPERMS_URL,
     { 
       queryParams: { 
-        fileids: fileIds,
+        file_ids: fileIds,
         keywords,
       }
     })

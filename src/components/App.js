@@ -1,7 +1,7 @@
 import React from 'react'
 import AddFile from '../containers/AddFile'
 import AppEditor from '../containers/AppEditor'
-import VisibleFileList from '../containers/VisibleFileList'
+import VisibleFileList from '../containers/VisibleDirectory'
 import AnalysisPanel from './AnalysisPanel'
 import {
   Panel,

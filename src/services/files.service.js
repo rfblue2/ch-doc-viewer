@@ -8,9 +8,12 @@ const get = id => {
   return fetch(url, options).then(handleResponse)
 }
 
-const getAll = () => {
+const getAll = folderIds => {
   const options = { mode: 'cors' }
   const url =  buildUrl(FILE_URL, { path: '/' })
+  if (folderIds && folderIds.length > 0) {
+    url.queryParams = { folder_ids: folderIds}
+  }
   return fetch(url, options).then(handleResponse)
 }
 

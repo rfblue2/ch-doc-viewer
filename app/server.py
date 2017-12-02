@@ -7,6 +7,7 @@ from flask_cors import CORS
 import os
 
 from api.files import files_api
+from api.folders import folders_api
 from api.keywords import keywords_api
 
 BUILD_DIR = '../build'
@@ -14,6 +15,7 @@ app = Flask(__name__, static_folder=BUILD_DIR)
 cors = CORS(app)
 
 app.register_blueprint(files_api, url_prefix='/files')
+app.register_blueprint(folders_api, url_prefix='/folders')
 app.register_blueprint(keywords_api)
 
 
