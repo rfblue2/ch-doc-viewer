@@ -1,7 +1,7 @@
-'''
+"""
 Roland Fong
 Python server that interfaces with pyMongo
-'''
+"""
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 import os
@@ -16,17 +16,15 @@ cors = CORS(app)
 app.register_blueprint(files_api, url_prefix='/files')
 app.register_blueprint(keywords_api)
 
-################################################################################
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-  if(path == ''):
-    return send_from_directory(BUILD_DIR, 'index.html')
-  else:
-    if(os.path.exists('build' + '/' + path)): # quirk - different ref dir
-      return send_from_directory(BUILD_DIR, path)
+    if path == '':
+        return send_from_directory(BUILD_DIR, 'index.html')
     else:
-      return send_from_directory(BUILD_DIR, 'index.html')
-
+        if os.path.exists('build' + '/' + path):  # quirk - different ref dir
+            return send_from_directory(BUILD_DIR, path)
+        else:
+            return send_from_directory(BUILD_DIR, 'index.html')
