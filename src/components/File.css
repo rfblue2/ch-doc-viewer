@@ -6,12 +6,15 @@
   list-style-type: none;
   display: flex;
   flex: 1;
-  flex-direction: row; }
+  flex-direction: row;
+  justify-content: space-between; }
   .file:hover {
     background-color: #ddd;
     cursor: pointer; }
-  .file .remove:hover {
-    color: red; }
+  .file .remove {
+    align-self: flex-end; }
+    .file .remove:hover {
+      color: red; }
 
 .selected {
   border-style: solid;

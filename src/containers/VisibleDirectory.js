@@ -67,11 +67,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFolderClick: (folderId, isSelected) => {
-      if (isSelected) {
-        dispatch(folderActions.unselect(folderId))
-      } else {
+      isSelected ?
+        dispatch(folderActions.unselect(folderId)) :
         dispatch(folderActions.select(folderId))
-      }
     },
     onFolderRemove: (folderId, isSelected) => e => {
       e.stopPropagation()
@@ -80,12 +78,16 @@ const mapDispatchToProps = dispatch => {
       }
       dispatch(folderActions.remove(folderId))
     },
+    onFolderExpand: (folderId, isExpanded) => e => {
+      e.stopPropagation()
+      isExpanded ?
+        dispatch(folderActions.collapse(folderId)) :
+        dispatch(folderActions.expand(folderId))
+    },
     onFileClick: (fileId, isSelected) => {
-      if (isSelected) {
-        dispatch(fileActions.unselect(fileId))
-      } else {
+      isSelected ?
+        dispatch(fileActions.unselect(fileId)) :
         dispatch(fileActions.select(fileId))
-      }
     },
     onFileRemove: (fileId, isSelected) => e => {
       e.stopPropagation()

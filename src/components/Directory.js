@@ -34,6 +34,7 @@ const Directory = ({
                      onFileRemove,
                      onFolderClick,
                      onFolderRemove,
+                     onFolderExpand,
                      selectedFiles,
                      selectedFolders,
                    }) => (
@@ -44,15 +45,30 @@ const Directory = ({
           <Folder
             onClick={onFolderClick}
             onRemove={onFolderRemove}
+            onExpand={onFolderExpand}
             folder={folder}
             selected={selectedFolders.map(f => f.id).includes(folder._id)}
           />
-          { renderFilesInFolder(files, folder._id, onFileClick, onFileRemove, selectedFiles)}
+          { // only show files if folder is expanded
+            folder.expanded ?
+            renderFilesInFolder(
+              files,
+              folder._id,
+              onFileClick,
+              onFileRemove,
+              selectedFiles
+            ) : null
+          }
         </div>
       ))
     }
-    {
-      renderFilesInFolder(files, 0, onFileClick, onFileRemove, selectedFiles)
+    { // files in root directory
+      renderFilesInFolder(
+        files,
+        0,
+        onFileClick,
+        onFileRemove,
+        selectedFiles)
     }
   </div>
 )
@@ -66,6 +82,7 @@ Directory.propTypes = {
   ).isRequired,
   folders: PropTypes.arrayOf(
     PropTypes.shape({
+      expanded: PropTypes.bool.isRequired,
       folder_name: PropTypes.string.isRequired,
       _id: PropTypes.string.isRequired
     }).isRequired
@@ -74,6 +91,7 @@ Directory.propTypes = {
   onFileRemove: PropTypes.func.isRequired,
   onFolderClick: PropTypes.func.isRequired,
   onFolderRemove: PropTypes.func.isRequired,
+  onFolderExpand: PropTypes.func.isRequired,
   selectedFiles: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

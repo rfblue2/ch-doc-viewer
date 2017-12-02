@@ -79,6 +79,20 @@ const unselect = folderId => {
   }
 }
 
+const expand = folderId => {
+  return {
+    type: folderConsts.EXPAND_FOLDER,
+    folderId,
+  }
+}
+
+const collapse = folderId => {
+  return {
+    type: folderConsts.COLLAPSE_FOLDER,
+    folderId,
+  }
+}
+
 const remove = id => {
   const request = folderId => {
     return {
@@ -116,5 +130,7 @@ export const folderActions = {
   add,
   select,
   unselect,
+  expand,
+  collapse,
   remove,
 }

@@ -18,14 +18,14 @@ const File = ({
       (selected ? ' selected' : '') +
       (parentFolderId !== 0 ? ' shifted' : '') }
     onClick={() => onFileClick(file._id, selected)} >
+    <div className='filelink' >
+      {file.filename}
+    </div>
     <span
       className='remove'
       onClick={onRemoveClick(file._id, selected)} >
       &#10006;
     </span>
-    <div className='filelink' >
-      {file.filename}
-    </div>
   </div>
 )
 

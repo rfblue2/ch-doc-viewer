@@ -7,14 +7,22 @@
   display: flex;
   flex: 1;
   flex-direction: row;
+  justify-content: space-between;
 
   &:hover {
     background-color: #ddd;
     cursor: pointer;
   }
 
-  .remove:hover {
-    color: red;
+  .remove {
+    align-self: flex-end;
+    &:hover {
+      color: red;
+    }
+  }
+
+  .expand:hover {
+    color: green;
   }
 
   .folderlink {
