@@ -32,6 +32,39 @@ const getAll = () => {
   }
 }
 
+const add = foldername => {
+  const request = foldername => {
+    return {
+      type: folderConsts.ADD_FOLDER_REQ,
+      foldername,
+    }
+  }
+
+  const success = (foldername, folderId) => {
+    return {
+      type: folderConsts.ADD_FOLDER_SUCC,
+      foldername,
+      folderId,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: folderConsts.ADD_FOLDER_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(foldername))
+
+    foldersService.add(foldername).then(
+      info => dispatch(success(info.folder_name, info._id)),
+      error => dispatch(failure(error))
+    )
+  }
+}
+
 const select = folderId => {
   return {
     type: folderConsts.SELECT_FOLDER,
@@ -80,6 +113,7 @@ const remove = id => {
 
 export const folderActions = {
   getAll,
+  add,
   select,
   unselect,
   remove,

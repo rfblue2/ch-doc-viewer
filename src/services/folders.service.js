@@ -17,7 +17,22 @@ const remove = folderId => {
   return fetch(url, options).then(handleResponse)
 }
 
+const add = foldername => {
+  const url = buildUrl(FOLDER_URL, {
+    path: '/',
+    queryParams: {
+      folder_name: foldername,
+    }
+  })
+  const options = {
+    mode: 'cors',
+    method: 'POST',
+  }
+  return fetch(url, options).then(handleResponse)
+}
+
 export const foldersService = {
   getAll,
   remove,
+  add,
 }

@@ -18,14 +18,14 @@ const folders = (state = {
           ...state.folderList,
           {
             folder_name: foldername,
-            folder_id: folderId,
+            _id: folderId,
           }
         ]
       }
     case folderConsts.DELETE_FOLDER_SUCC:
       return {
         ...state,
-        folderList: state.folderList.filter(x => x.folder_id !== folderId)
+        folderList: state.folderList.filter(x => x._id !== folderId)
       }
     case folderConsts.SELECT_FOLDER:
       return {

@@ -37,7 +37,7 @@ File.propTypes = {
   }).isRequired,
   onFileClick: PropTypes.func.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
-  parentFolderId: PropTypes.string.isRequired,
+  parentFolderId: PropTypes.any.isRequired,
 }
 
 export default File

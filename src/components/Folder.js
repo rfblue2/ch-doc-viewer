@@ -8,10 +8,10 @@ import './Folder.css'
 const Folder = ({ folder, onClick, onRemove, selected }) => (
   <div
     className={ 'folder' + (selected ? ' selected' : '')}
-    onClick={() => onClick(folder.id, selected)}>
+    onClick={() => onClick(folder._id, selected)}>
     <span
       className='remove'
-      onClick={onRemove(folder.id, selected)}>
+      onClick={onRemove(folder._id, selected)}>
       &#10006;
     </span>
     <div className='folderlink' >
@@ -23,8 +23,8 @@ const Folder = ({ folder, onClick, onRemove, selected }) => (
 Folder.propTypes = {
   selected: PropTypes.bool.isRequired,
   folder: PropTypes.shape({
-    foldername: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    folder_name: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,

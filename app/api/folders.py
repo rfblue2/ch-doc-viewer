@@ -29,7 +29,7 @@ def add_folder():
     })
     return json.dumps({
         'folder_name': folder_name,
-        'folder_id': str(result.inserted_id)
+        '_id': str(result.inserted_id)
     }), 200, {'ContentType': 'application/json'}
 
 

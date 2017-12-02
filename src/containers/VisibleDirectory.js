@@ -17,7 +17,7 @@ class VisibleDirectory extends Component {
     ).isRequired,
     folders: PropTypes.arrayOf(
       PropTypes.shape({
-        folder_id: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
         folder_name: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
@@ -74,7 +74,7 @@ const mapDispatchToProps = dispatch => {
       }
     },
     onFolderRemove: (folderId, isSelected) => e => {
-      e.stopPropogation()
+      e.stopPropagation()
       if (isSelected) {
         dispatch(folderActions.unselect(folderId))
       }

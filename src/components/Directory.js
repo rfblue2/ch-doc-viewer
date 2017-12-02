@@ -45,7 +45,7 @@ const Directory = ({
             onClick={onFolderClick}
             onRemove={onFolderRemove}
             folder={folder}
-            selected={selectedFolders.map(f => f.id).includes(folder.folder_id)}
+            selected={selectedFolders.map(f => f.id).includes(folder._id)}
           />
           { renderFilesInFolder(files, folder._id, onFileClick, onFileRemove, selectedFiles)}
         </div>
@@ -67,7 +67,7 @@ Directory.propTypes = {
   folders: PropTypes.arrayOf(
     PropTypes.shape({
       folder_name: PropTypes.string.isRequired,
-      folder_id: PropTypes.string.isRequired
+      _id: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
   onFileClick: PropTypes.func.isRequired,
@@ -83,7 +83,7 @@ Directory.propTypes = {
   selectedFolders: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      foldername: PropTypes.string.isRequired,
+      folder_name: PropTypes.string.isRequired,
     })
   ).isRequired,
 }

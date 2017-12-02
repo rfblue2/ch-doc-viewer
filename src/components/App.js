@@ -1,5 +1,6 @@
 import React from 'react'
 import AddFile from '../containers/AddFile'
+import AddFolder from '../containers/AddFolder'
 import AppEditor from '../containers/AppEditor'
 import VisibleFileList from '../containers/VisibleDirectory'
 import AnalysisPanel from './AnalysisPanel'
@@ -20,6 +21,7 @@ const App = () => (
     </div>
     <div className='content-container'>
       <Panel>
+        <AddFolder />
         <AddFile />
         <VisibleFileList />
       </Panel>
