@@ -39,7 +39,7 @@ connectDragSource(
   <div
     className={ 'file' +
       (selected ? ' selected' : '') +
-      (parentFolderId !== 0 ? ' shifted' : '') }
+      (parentFolderId !== '0' ? ' shifted' : '') }
     onClick={() => onClick(file._id, selected)} >
     <div className='filelink' >
       {file.filename}
@@ -60,7 +60,7 @@ File.propTypes = {
   }).isRequired,
   onClick: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  parentFolderId: PropTypes.any.isRequired,
+  parentFolderId: PropTypes.string.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   handleUndroppedFile: PropTypes.func.isRequired,
 }

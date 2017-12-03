@@ -71,7 +71,7 @@ const Directory = ({
     { // files in root directory
       renderFilesInFolder(
         files,
-        0,
+        '0',
         onFileClick,
         onFileRemove,
         selectedFiles,
@@ -84,7 +84,7 @@ const Directory = ({
 Directory.propTypes = {
   files: PropTypes.arrayOf(
     PropTypes.shape({
-      folder_id: PropTypes.any.isRequired,
+      folder_id: PropTypes.string.isRequired,
       filename: PropTypes.string.isRequired,
       _id: PropTypes.string.isRequired
     }).isRequired

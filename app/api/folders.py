@@ -41,13 +41,14 @@ def get_folder(folder_id):
 
 @folders_api.route('/<folder_id>', methods=['DELETE'])
 def delete_folder_and_files(folder_id):
-    if folder_id == 0: # cannot delete root!
+    if folder_id == '0': # cannot delete root!
         return json.dumps({'message': 'Cannot delete file root!'}), 400
 
     # delete files in folder
     files = fs.find({'folder_id': folder_id})
-    file_ids = list(map(lambda f: f._id, files))
-    map(lambda i: fs.delete(i), file_ids)
+    file_ids = list(map(lambda f: str(f._id), files))
+    for id in file_ids:
+        fs.delete(ObjectId(id))
 
     db.folders.delete_one({'_id': ObjectId(folder_id)})
 

@@ -13,7 +13,7 @@ class VisibleDirectory extends Component {
       PropTypes.shape({
         _id: PropTypes.string.isRequired,
         filename: PropTypes.string.isRequired,
-        folder_id: PropTypes.any.isRequired,
+        folder_id: PropTypes.string.isRequired,
       }).isRequired
     ).isRequired,
     folders: PropTypes.arrayOf(
@@ -103,7 +103,7 @@ const mapDispatchToProps = dispatch => {
     },
     handleUndroppedFile: fileId => {
       // If not dropped into folder, remove it from folder
-      dispatch(fileActions.update(fileId, { 'folder_id': 0 }))
+      dispatch(fileActions.update(fileId, { 'folder_id': '0' }))
     },
     dispatch: dispatch,
   }

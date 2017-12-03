@@ -16,7 +16,9 @@ class AddFolder extends Component {
 
   addFolder() {
     const name = prompt('Folder Name:')
-    this.props.dispatch(folderActions.add(name))
+    if (name) {
+      this.props.dispatch(folderActions.add(name))
+    }
   }
 
   render() {

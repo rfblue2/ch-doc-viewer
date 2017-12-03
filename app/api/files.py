@@ -15,7 +15,7 @@ files_api = Blueprint('files_api', __name__)
 @files_api.route('/', methods=['POST'])
 def save_upload():
     all_args = request.args.to_dict()
-    folder_id = all_args.get('folder_id', 0) # 0 is root
+    folder_id = all_args.get('folder_id', '0') # 0 is root
     file = request.files['file']
     filename = file.filename
     file_id = fs.put(file, filename=filename, folder_id=folder_id)
@@ -55,7 +55,7 @@ def get_file(file_id):
     return json.dumps({
         'id': file_id,
         'filename': file.filename,
-        'folder_id': str(file.folder_id),
+        'folder_id': file.folder_id,
         'text': str(file.read(), encoding='utf-8'),
     }), 200, {'ContentType': 'application/json'}
 
@@ -66,8 +66,6 @@ def update_file(file_id):
     update_query = {'$set': {}}
     for k in body.keys():
         value = body[k]
-        if k == 'folder_id':
-            value = 0 if value == '0' else ObjectId(body[k])
         update_query['$set'][k] = value
     db.fs.files.update_one({'_id': ObjectId(file_id)}, update_query)
 
