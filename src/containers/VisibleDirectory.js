@@ -12,7 +12,8 @@ class VisibleDirectory extends Component {
     files: PropTypes.arrayOf(
       PropTypes.shape({
         _id: PropTypes.string.isRequired,
-        filename: PropTypes.string.isRequired
+        filename: PropTypes.string.isRequired,
+        folder_id: PropTypes.any.isRequired,
       }).isRequired
     ).isRequired,
     folders: PropTypes.arrayOf(

@@ -84,6 +84,7 @@ const Directory = ({
 Directory.propTypes = {
   files: PropTypes.arrayOf(
     PropTypes.shape({
+      folder_id: PropTypes.any.isRequired,
       filename: PropTypes.string.isRequired,
       _id: PropTypes.string.isRequired
     }).isRequired
