@@ -40,7 +40,7 @@ connectDropTarget(
       className='expand'
       onClick={onExpand(folder._id, folder.expanded)}
     >
-      { folder.expanded ? <span>&#8863;</span> : <span>&#8862;</span> }
+      { folder.expanded ? <span>▼</span> : <span>▶</span> }
     </span>
     <div className='folderlink' >
       { folder.folder_name }

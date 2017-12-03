@@ -1,5 +1,6 @@
 import { ContentState, EditorState } from 'draft-js'
 import { fileConsts } from '../constants'
+import { folderConsts } from '../constants'
 
 const defaultState = {
   editorState: EditorState.createEmpty(), 
@@ -30,6 +31,8 @@ const editor = (state=defaultState , action) => {
       } else {
         return state
       }
+    case folderConsts.UNSELECT_FOLDER:
+      return defaultState
     default:
       return state
   }
