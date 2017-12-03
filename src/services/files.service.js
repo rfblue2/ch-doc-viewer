@@ -18,12 +18,27 @@ const getAll = folderIds => {
 }
 
 const upload = file => {
-  var form = new FormData()
+  let form = new FormData()
   form.append('file', file)
   const url =  buildUrl(FILE_URL, { path: '/' })
   const options = {
     mode: 'cors',
     method: 'POST',
+    body: form,
+  }
+  return fetch(url, options).then(handleResponse)
+}
+
+// data should be metadata in form of key-value
+const update = (id, data) => {
+  let form = new FormData()
+  for (let key in data) {
+    form.append(key, data[key])
+  }
+  const url = buildUrl(FILE_URL, { path: id})
+  const options = {
+    mode: 'cors',
+    method: 'PUT',
     body: form,
   }
   return fetch(url, options).then(handleResponse)
@@ -42,5 +57,6 @@ export const filesService = {
   get,
   getAll,
   upload,
+  update,
   remove,
 }

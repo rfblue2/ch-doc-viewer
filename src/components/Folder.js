@@ -1,6 +1,21 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { DropTarget } from 'react-dnd'
+import { ItemTypes } from '../constants'
 import './Folder.css'
+
+const folderTarget = {
+  drop(props, monitor) {
+    props.handleReceivedFile(props.folder._id, monitor.getItem())
+  }
+}
+
+const collect = (connect, monitor) => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  }
+}
 
 /**
  * Represents a folder in the file directory
@@ -11,9 +26,15 @@ const Folder = ({
                   onRemove,
                   onExpand,
                   selected,
-                }) => (
+                  connectDropTarget,
+                  isOver,
+                }) =>
+connectDropTarget(
   <div
-    className={ 'folder' + (selected ? ' selected' : '')}
+    className={ 'folder' +
+      (selected ? ' selected' : '') +
+      (isOver ? ' over' : '')
+    }
     onClick={() => onClick(folder._id, selected)}>
     <span
       className='expand'
@@ -41,6 +62,9 @@ Folder.propTypes = {
   onClick: PropTypes.func.isRequired,
   onExpand: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired,
+  handleReceivedFile: PropTypes.func.isRequired,
 }
 
-export default Folder
+export default DropTarget(ItemTypes.FILE, folderTarget, collect)(Folder)

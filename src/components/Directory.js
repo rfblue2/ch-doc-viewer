@@ -9,14 +9,16 @@ const renderFilesInFolder = (
   folderId,
   onFileClick,
   onFileRemove,
-  selectedFiles
+  selectedFiles,
+  handleUndroppedFile,
 ) =>
   files.filter(f => f.folder_id === folderId)
     .map((file, i) => (
       <File
         key={i}
-        onFileClick={onFileClick}
-        onRemoveClick={onFileRemove}
+        onClick={onFileClick}
+        onRemove={onFileRemove}
+        handleUndroppedFile={handleUndroppedFile}
         file={file}
         selected={selectedFiles.map(f => f.id).includes(file._id)}
         parentFolderId={file.folder_id}
@@ -34,6 +36,8 @@ const Directory = ({
                      onFileRemove,
                      onFolderClick,
                      onFolderRemove,
+                     handleReceivedFile,
+                     handleUndroppedFile,
                      onFolderExpand,
                      selectedFiles,
                      selectedFolders,
@@ -46,6 +50,7 @@ const Directory = ({
             onClick={onFolderClick}
             onRemove={onFolderRemove}
             onExpand={onFolderExpand}
+            handleReceivedFile={handleReceivedFile}
             folder={folder}
             selected={selectedFolders.map(f => f.id).includes(folder._id)}
           />
@@ -56,7 +61,8 @@ const Directory = ({
               folder._id,
               onFileClick,
               onFileRemove,
-              selectedFiles
+              selectedFiles,
+              handleUndroppedFile,
             ) : null
           }
         </div>
@@ -68,7 +74,9 @@ const Directory = ({
         0,
         onFileClick,
         onFileRemove,
-        selectedFiles)
+        selectedFiles,
+        () => null
+      )
     }
   </div>
 )
@@ -92,6 +100,8 @@ Directory.propTypes = {
   onFolderClick: PropTypes.func.isRequired,
   onFolderRemove: PropTypes.func.isRequired,
   onFolderExpand: PropTypes.func.isRequired,
+  handleReceivedFile: PropTypes.func.isRequired,
+  handleUndroppedFile: PropTypes.func.isRequired,
   selectedFiles: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -101,7 +111,6 @@ Directory.propTypes = {
   selectedFolders: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      folder_name: PropTypes.string.isRequired,
     })
   ).isRequired,
 }

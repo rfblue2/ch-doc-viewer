@@ -60,6 +60,22 @@ def get_file(file_id):
     }), 200, {'ContentType': 'application/json'}
 
 
+@files_api.route('/<file_id>', methods=['PUT'])
+def update_file(file_id):
+    body = request.form
+    update_query = {'$set': {}}
+    for k in body.keys():
+        value = body[k]
+        if k == 'folder_id':
+            value = 0 if value == '0' else ObjectId(body[k])
+        update_query['$set'][k] = value
+    db.fs.files.update_one({'_id': ObjectId(file_id)}, update_query)
+
+    return json.dumps({
+        'id': file_id
+    }), 200,  {'ContentType': 'application/json'}
+
+
 # delete file by id
 @files_api.route('/<file_id>', methods=['DELETE'])
 def delete_file(file_id):

@@ -109,11 +109,12 @@ const upload = file => {
     }
   }
 
-  const success = (filename, fileId) => {
+  const success = (filename, fileId, folderId) => {
     return {
       type: fileConsts.UPLOAD_FILE_SUCC,
       filename,
       fileId,
+      folderId,
     }
   }
 
@@ -128,7 +129,7 @@ const upload = file => {
     dispatch(request(file))
 
     filesService.upload(file).then(
-      info => dispatch(success(info.filename, info.id)),
+      info => dispatch(success(info.filename, info.id, info.folder_id)),
       error => dispatch(failure(error))
     )
   }
@@ -173,6 +174,40 @@ const unselect = id => {
   }
 }
 
+const update = (id, data) => {
+  const request = (id, data) => {
+    return {
+      type: fileConsts.UPDATE_FILE_REQ,
+      id,
+      data,
+    }
+  }
+
+  const success = (fileId, data) => {
+    return {
+      type: fileConsts.UPDATE_FILE_SUCC,
+      fileId,
+      data,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: fileConsts.UPDATE_FILE_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(id, data))
+
+    filesService.update(id, data).then(
+      info => dispatch(success(info.id, data)),
+      error => dispatch(failure(error))
+    )
+  }
+}
+
 export const displayFile = filename => {
   return {
     type: 'DISPLAY_FILE',
@@ -186,5 +221,6 @@ export const fileActions = {
   getAll,
   upload,
   remove,
+  update,
   unselect,
 }

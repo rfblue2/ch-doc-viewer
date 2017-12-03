@@ -38,7 +38,6 @@ const folders = (state = {
           ...state.selectedFolders,
           {
             id: folderId,
-            foldername,
           }
         ]
       }

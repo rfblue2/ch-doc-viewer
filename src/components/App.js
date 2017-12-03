@@ -1,4 +1,6 @@
 import React from 'react'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 import AddFile from '../containers/AddFile'
 import AddFolder from '../containers/AddFolder'
 import AppEditor from '../containers/AppEditor'
@@ -33,4 +35,4 @@ const App = () => (
   </div>
 )
 
-export default App
+export default DragDropContext(HTML5Backend)(App)

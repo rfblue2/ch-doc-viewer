@@ -25,18 +25,19 @@ class VisibleDirectory extends Component {
     onFileRemove: PropTypes.func.isRequired,
     onFolderClick: PropTypes.func.isRequired,
     onFolderRemove: PropTypes.func.isRequired,
+    handleReceivedFile: PropTypes.func.isRequired,
+    handleUndroppedFile: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     selectedFiles: PropTypes.arrayOf(
-      PropTypes.shape(
-        PropTypes.string.isRequired,
-        PropTypes.string.isRequired,
-      )
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        filename: PropTypes.string.isRequired,
+      })
     ).isRequired,
     selectedFolders: PropTypes.arrayOf(
-      PropTypes.shape(
-        PropTypes.string.isRequired,
-        PropTypes.string.isRequired,
-      )
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      })
     ),
   }
    
@@ -95,6 +96,13 @@ const mapDispatchToProps = dispatch => {
         dispatch(fileActions.unselect(fileId))
       }
       dispatch(fileActions.remove(fileId))
+    },
+    handleReceivedFile: (folderId, file) => {
+      dispatch(fileActions.update(file.fileId, { 'folder_id': folderId}))
+    },
+    handleUndroppedFile: fileId => {
+      // If not dropped into folder, remove it from folder
+      dispatch(fileActions.update(fileId, { 'folder_id': 0 }))
     },
     dispatch: dispatch,
   }

@@ -4,7 +4,7 @@ const files = (state = {
   fileList: [],
   selectedFiles: [], // only ids and names
 }, action) => {
-  let { type, files, fileId, filename } = action
+  let { type, files, fileId, folderId, filename, data } = action
   switch (type) {
     case fileConsts.GETALL_FILES_SUCC:
       return {
@@ -17,10 +17,22 @@ const files = (state = {
         fileList: [
           ...state.fileList,
           {
-            filename: filename,
             _id: fileId,
+            filename,
+            folder_id: folderId,
           }
         ]
+      }
+    case fileConsts.UPDATE_FILE_SUCC:
+      return {
+        ...state,
+        fileList: state.fileList.map(f => {
+          if (f._id === fileId) {
+            // client side update of the file list
+            Object.assign(f, data)
+          }
+          return f
+        })
       }
     case fileConsts.DELETE_FILE_SUCC:
       return {

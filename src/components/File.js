@@ -1,6 +1,27 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { DragSource } from 'react-dnd'
+import { ItemTypes } from '../constants'
 import './File.css'
+
+const fileSource = {
+  beginDrag(props) {
+    return {
+      fileId: props.file._id,
+    }
+  },
+  endDrag(props, monitor) {
+    if (!monitor.didDrop()) {
+      props.handleUndroppedFile(props.file._id)
+    }
+  },
+}
+
+const collect = connect => {
+  return {
+    connectDragSource: connect.dragSource(),
+  }
+}
 
 /**
  * Represents an individual file in the file list that you can click
@@ -8,22 +29,24 @@ import './File.css'
  */
 const File = ({
                 file,
-                onFileClick,
-                onRemoveClick,
+                onClick,
+                onRemove,
                 selected,
-                parentFolderId
-              }) => (
-  <div 
+                parentFolderId,
+                connectDragSource,
+              }) =>
+connectDragSource(
+  <div
     className={ 'file' +
       (selected ? ' selected' : '') +
       (parentFolderId !== 0 ? ' shifted' : '') }
-    onClick={() => onFileClick(file._id, selected)} >
+    onClick={() => onClick(file._id, selected)} >
     <div className='filelink' >
       {file.filename}
     </div>
     <span
       className='remove'
-      onClick={onRemoveClick(file._id, selected)} >
+      onClick={onRemove(file._id, selected)} >
       &#10006;
     </span>
   </div>
@@ -35,9 +58,11 @@ File.propTypes = {
     filename: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired
   }).isRequired,
-  onFileClick: PropTypes.func.isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
   parentFolderId: PropTypes.any.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  handleUndroppedFile: PropTypes.func.isRequired,
 }
 
-export default File
+export default DragSource(ItemTypes.FILE, fileSource, collect)(File)
