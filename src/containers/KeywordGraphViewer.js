@@ -10,7 +10,7 @@ import KeywordGraph from '../components/KeywordGraph'
 class KeywordGraphViewer extends Component {
   static propTypes = {
     graphData: PropTypes.object,
-    error: PropTypes.string,
+    error: PropTypes.object,
     fileIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     generate: PropTypes.func.isRequired,
   }
@@ -32,7 +32,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    generate: fileIds => dispatch(getGraphData(fileIds))
+    generate: fileIds => {
+      console.log('clicked')
+      dispatch(getGraphData(fileIds))
+    }
   }
 }
 

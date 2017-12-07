@@ -13,7 +13,7 @@ class KeywordGraph extends Component {
 
   static propTypes = {
     graphData: PropTypes.object,
-    error: PropTypes.string,
+    error: PropTypes.object,
     generate: PropTypes.func.isRequired,
     fileIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
@@ -30,13 +30,13 @@ class KeywordGraph extends Component {
   }
 
   static clearGraph() {
-    d3.selectAll("svg > *").remove() // clear svg
+    d3.selectAll('svg > *').remove() // clear svg
   }
 
   renderGraph(graph) {
-    const svg = d3.select("svg"),
-      width = +svg.attr("width"),
-      height = +svg.attr("height")
+    const svg = d3.select('svg'),
+      width = +svg.attr('width'),
+      height = +svg.attr('height')
 
     const maxDeg = Math.max.apply(Math, graph.nodes.map(n => n.degree))
 
@@ -45,16 +45,16 @@ class KeywordGraph extends Component {
     const radius = 2
 
     const simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id(d => d.id))
-      .force("charge", d3.forceManyBody().strength(-5))
-      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force('link', d3.forceLink().id(d => d.id))
+      .force('charge', d3.forceManyBody().strength(-5))
+      .force('center', d3.forceCenter(width / 2, height / 2))
 
-    const link = svg.append("g")
-      .attr("class", "links")
-      .selectAll("line")
+    const link = svg.append('g')
+      .attr('class', 'links')
+      .selectAll('line')
       .data(graph.links)
-      .enter().append("line")
-      .attr("stroke-width", d => Math.sqrt(d.value) )
+      .enter().append('line')
+      .attr('stroke-width', d => Math.sqrt(d.value) )
 
     const dragstarted = d => {
       if (!d3.event.active) simulation.alphaTarget(0.3).restart()
@@ -73,35 +73,35 @@ class KeywordGraph extends Component {
       d.fy = null
     }
 
-    const node = svg.append("g")
-      .attr("class", "nodes")
-      .selectAll("circle")
+    const node = svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('circle')
       .data(graph.nodes)
-      .enter().append("g")
-      .attr("class", "node")
+      .enter().append('g')
+      .attr('class', 'node')
       .call(d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended))
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended))
 
-    node.append("circle")
-      .attr("r", d => radius * d.degree)
-      .attr("fill", d => color(1 - d.degree / maxDeg))
+    node.append('circle')
+      .attr('r', d => radius * d.degree)
+      .attr('fill', d => color(1 - d.degree / maxDeg))
 
-    node.append("text")
+    node.append('text')
       .text(d => d.id)
       .style('font-size', d => (d.degree * 2 + 7) + 'px')
 
     const ticked = () => {
       link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y)
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y)
 
       //constrains the nodes to be within a box
       node
-        .attr("transform",
+        .attr('transform',
           d => {
             let dx = Math.max(radius, Math.min(width - radius, d.x))
             let dy = Math.max(radius, Math.min(height - radius, d.y))
@@ -112,9 +112,9 @@ class KeywordGraph extends Component {
 
     simulation
       .nodes(graph.nodes)
-      .on("tick", ticked)
+      .on('tick', ticked)
 
-    simulation.force("link")
+    simulation.force('link')
       .links(graph.links)
   }
 
