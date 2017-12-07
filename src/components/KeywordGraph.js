@@ -1,9 +1,6 @@
 import * as d3 from 'd3'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import {
-  Button,
-} from 'react-bootstrap'
 import './KeywordGraph.css'
 
 /**
@@ -12,29 +9,28 @@ import './KeywordGraph.css'
 class KeywordGraph extends Component {
 
   static propTypes = {
+    handle: PropTypes.string.isRequired,
     graphData: PropTypes.object,
     error: PropTypes.object,
-    generate: PropTypes.func.isRequired,
-    fileIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.error) {
       alert(nextProps.error)
     } else if (nextProps.graphData) {
-      KeywordGraph.clearGraph()
+      this.clearGraph()
       this.renderGraph(nextProps.graphData)
     } else {
-      KeywordGraph.clearGraph()
+      this.clearGraph()
     }
   }
 
-  static clearGraph() {
-    d3.selectAll('svg > *').remove() // clear svg
+  clearGraph() {
+    d3.selectAll(`.${this.props.handle} > *`).remove() // clear svg
   }
 
   renderGraph(graph) {
-    const svg = d3.select('svg'),
+    const svg = d3.select('.' + this.props.handle),
       width = +svg.attr('width'),
       height = +svg.attr('height')
 
@@ -119,20 +115,13 @@ class KeywordGraph extends Component {
   }
 
   render() {
-    const { generate, fileIds } = this.props
     return (
-      <div>
-        <Button
-          onClick={() => generate(fileIds)}>
-          Keyword Graph
-        </Button>
-        <br/>
-        <svg
-          ref={node => this.node = node}
-          width={800}
-          height={500}
-        />
-      </div>
+      <svg
+        className={this.props.handle}
+        ref={node => this.node = node}
+        width={800}
+        height={500}
+      />
     )
   }
 

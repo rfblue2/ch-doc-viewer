@@ -86,7 +86,7 @@ def segment_text(text, dictionary):
 
 # create graph from texts and window size
 def create_col_graph(texts, full_dictionary, d):
-    g = nx.DiGraph()
+    g = nx.Graph()
 
     for t in texts:
         words = segment_text(t, full_dictionary)
@@ -134,9 +134,7 @@ def get_keyword_graph():
         for w in dict_file:
             full_dictionary.append(w[:-1])
 
-    # only remove stopwords for full keyword graphs
-    if keywords == ['']:
-        full_dictionary = list(filter(lambda d: not d in stopwords, list(full_dictionary)))
+    full_dictionary = list(filter(lambda d: not d in stopwords, list(full_dictionary)))
 
     # concat the contents of all the files, separated by null char
     all_texts = list(map(lambda f: f.read().decode('utf-8'), files))
@@ -145,30 +143,19 @@ def get_keyword_graph():
     # if keywords specified, then only include keywords and nodes that
     # are distance away from keyword nodes
     if not (keywords == ['']):
-        new_graph = nx.DiGraph()
+        new_graph = nx.Graph()
         new_graph.add_nodes_from(nx.nodes(graph))
         for keyword in keywords:
-            pred_dict = { k:v for k,v in nx.bfs_predecessors(graph, keyword) }
             succ_dict = { k:v for k,v in nx.bfs_successors(graph, keyword) }
-            preds = [keyword]
             succs = [keyword]
             for i in range(0, dist):
-                print(i)
-                temp_preds = []
                 temp_succs = []
-                while len(preds) > 0:
-                    pred = preds.pop()
-                    if pred in pred_dict:
-                        for p in pred_dict[pred]:
-                            new_graph.add_edge(p, pred)
-                            temp_preds.append(p)
                 while len(succs) > 0:
                     succ = succs.pop()
                     if succ in succ_dict:
                         for s in succ_dict[succ]:
                             new_graph.add_edge(succ, s)
                             temp_succs.append(s)
-                preds = temp_preds
                 succs = temp_succs
 
         # delete zero degree nodes that are not keywords

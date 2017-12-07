@@ -5,9 +5,11 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
+  Button,
 } from 'react-bootstrap'
-import { getPermData } from '../actions'
+import { getGraphData, getPermData } from '../actions'
 import KeywordPermViewer from '../components/KeywordPermViewer'
+import KeywordGraph from '../components/KeywordGraph'
 
 /**
  * Enables keyword search
@@ -38,16 +40,19 @@ class KeywordSearch extends Component {
     }
   }
 
+  getKeywords() {
+    return this.state.query
+      .split(/[，,]+/)
+      .map(s => s.trim())
+      .filter(Boolean)
+  }
+
   onKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
-      const keywords = this.state.query
-        .split(/[，,]+/)
-        .map(s => s.trim())
-        .filter(Boolean)
       this.props.dispatch(getPermData(
         this.props.fileIds,
-        keywords,
+        this.getKeywords(),
       ))
     }
   }
@@ -57,14 +62,14 @@ class KeywordSearch extends Component {
   }
 
   render() {
-    const { keywordPerms } = this.props
+    const { keywordPerms, generate, fileIds, graphData } = this.props
     return (
       <div>
         <form>
           <FormGroup
             controlId="formBasicText"
           >
-            <ControlLabel>Keywords:</ControlLabel>
+            <ControlLabel>Keywords (comma separated):</ControlLabel>
             <FormControl
               type="text"
               value={ this.state.query}
@@ -75,6 +80,14 @@ class KeywordSearch extends Component {
           </FormGroup>
         </form>
         <KeywordPermViewer keywordPerms={keywordPerms} />
+        <Button
+          onClick={() => {
+            generate(fileIds, this.getKeywords())
+          }} >
+          Keyword SubGraph
+        </Button>
+        <br/>
+        <KeywordGraph graphData={graphData} handle='search'/>
       </div>
     )
   }
@@ -84,12 +97,16 @@ const mapStateToProps = state => {
   return {
     keywordPerms: state.keywords.permData,
     fileIds: state.files.selectedFiles.map(f => f.id),
+    graphData: state.keywords.graphData,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     dispatch: dispatch,
+    generate: (fileIds, keywords) => {
+      dispatch(getGraphData(fileIds, 2, keywords, 5))
+    }
   }
 }
 

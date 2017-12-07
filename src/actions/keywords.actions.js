@@ -1,11 +1,14 @@
 import { keywordsService } from '../services'
 import { keywordConsts } from '../constants'
 
-export const getGraphData = fileIds => {
-  const request = fileIds => {
+export const getGraphData = (fileIds, window, keywords, distance) => {
+  const request = (fileIds, window, keywords, distance) => {
     return {
       type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
       fileIds,
+      window,
+      keywords,
+      distance,
     }
   }
   const success = graphData => {
@@ -23,14 +26,14 @@ export const getGraphData = fileIds => {
   }
 
   return dispatch => {
-    dispatch(request(fileIds))
+    dispatch(request(fileIds, window, keywords, distance))
 
     if (!fileIds || fileIds.length <= 0) {
       dispatch(failure('Error: No File Selected'))
       return
     }
 
-    keywordsService.getGraphData(fileIds).then(
+    keywordsService.getGraphData(fileIds, window, keywords, distance).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err)))
   }
@@ -44,7 +47,7 @@ export const getPermData = (fileIds, keywords) => {
       keywords,
     }
   }
-  const success = keywordPerms => {
+  const success = (keywordPerms) => {
     return {
       type: keywordConsts.LOAD_KEYWORD_PERMS_SUCC,
       keywordPerms,
@@ -59,7 +62,7 @@ export const getPermData = (fileIds, keywords) => {
   }
 
   return dispatch => {
-    dispatch(request(fileIds, keywords))
+    dispatch(request(fileIds))
 
     if (!fileIds ||
         fileIds.length <= 0 ||
@@ -70,7 +73,7 @@ export const getPermData = (fileIds, keywords) => {
     }
 
     keywordsService.getPermData(fileIds, keywords).then(
-      data => dispatch(success(data)),
+      data => dispatch(success(data, keywords)),
       err => dispatch(failure(err)))
   }
 }

@@ -2,6 +2,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { getGraphData } from '../actions'
+import {
+  Button,
+} from 'react-bootstrap'
 import KeywordGraph from '../components/KeywordGraph'
 
 /**
@@ -16,8 +19,16 @@ class KeywordGraphViewer extends Component {
   }
 
   render() {
+    const { generate, fileIds } = this.props
     return (
-      <KeywordGraph { ...this.props }/>
+      <div>
+        <Button
+          onClick={() => generate(fileIds)}>
+          Keyword Graph
+        </Button>
+        <br/>
+        <KeywordGraph { ...this.props } handle='viewer'/>
+      </div>
     )
   }
 }
@@ -33,7 +44,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     generate: fileIds => {
-      console.log('clicked')
       dispatch(getGraphData(fileIds))
     }
   }
