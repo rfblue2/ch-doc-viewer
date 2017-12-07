@@ -1,145 +1,24 @@
-import * as d3 from 'd3'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { getGraphData } from '../actions'
-import {
-  Button,
-} from 'react-bootstrap'
-import './KeywordGraphViewer.css'
+import KeywordGraph from '../components/KeywordGraph'
 
 /**
- * Displays a keyword collocation graph using d3
+ * Responsible for rendering keyword graph for full texts
  */
 class KeywordGraphViewer extends Component {
   static propTypes = {
     graphData: PropTypes.object,
     error: PropTypes.string,
     fileIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-    dispatch: PropTypes.func.isRequired,
-  }
-
-  clearGraph() {
-    d3.selectAll("svg > *").remove() // clear svg
-  }
-
-  renderGraph(graph) {
-    var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height")
-
-    const maxDeg = Math.max.apply(Math, graph.nodes.map(n => n.degree))
-
-    const color = t => d3.interpolateWarm(t)
-
-    const radius = 2
-
-    var simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id(d => d.id))
-      .force("charge", d3.forceManyBody().strength(-5))
-      .force("center", d3.forceCenter(width / 2, height / 2))
-
-    var link = svg.append("g")
-      .attr("class", "links")
-      .selectAll("line")
-      .data(graph.links)
-      .enter().append("line")
-        .attr("stroke-width", d => Math.sqrt(d.value) )
-
-    var node = svg.append("g")
-      .attr("class", "nodes")
-      .selectAll("circle")
-      .data(graph.nodes)
-      .enter().append("g")
-        .attr("class", "node")
-        .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended))
-
-    node.append("circle")
-        .attr("r", d => radius * d.degree)
-        .attr("fill", d => {
-          console.log(maxDeg)
-          return color(1 - d.degree / maxDeg)
-        })
-
-    node.append("text")
-        .text(d => d.id)
-        .style('font-size', d => (d.degree * 2 + 7) + 'px')
-
-    simulation
-      .nodes(graph.nodes)
-      .on("tick", ticked)
-
-    simulation.force("link")
-      .links(graph.links)
-
-    function ticked() {
-      link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y)
-
-      //constrains the nodes to be within a box
-      node
-        .attr("transform", 
-          d => { 
-            let dx = Math.max(radius, Math.min(width - radius, d.x))
-            let dy = Math.max(radius, Math.min(height - radius, d.y))
-            return `translate(${dx},${dy})`
-          }
-        )
-    }
-
-    function dragstarted(d) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart()
-      d.fx = d.x
-      d.fy = d.y
-    }
-
-    function dragged(d) {
-      d.fx = d3.event.x
-      d.fy = d3.event.y
-    }
-
-    function dragended(d) {
-      if (!d3.event.active) simulation.alphaTarget(0)
-      d.fx = null
-      d.fy = null
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.error) {
-      alert(nextProps.error)
-      return
-    } else if (nextProps.graphData) {
-      this.clearGraph()
-      this.renderGraph(nextProps.graphData)
-    } else {
-      this.clearGraph()
-    }
+    generate: PropTypes.func.isRequired,
   }
 
   render() {
-    const { fileIds, dispatch } = this.props
     return (
-      <div>
-        <Button
-          onClick={() => dispatch(getGraphData(fileIds))}>
-          Keyword Graph
-        </Button>
-        <br/>
-        <svg
-          ref={node => this.node = node}
-          width={800}
-          height={500}
-        />
-      </div>
+      <KeywordGraph { ...this.props }/>
     )
-
   }
 }
 
@@ -153,7 +32,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    dispatch: dispatch,
+    generate: fileIds => dispatch(getGraphData(fileIds))
   }
 }
 

@@ -56,8 +56,9 @@ def get_keyword_permutations():
 @keywords_api.route('/keywordgraph', methods=['GET'])
 def get_keyword_graph():
     # TODO query param for window size
+    # TODO return error when arg missing
     all_args = request.args.to_dict()
-    fileids = re.split(',', all_args['fileids'])
+    fileids = re.split(',', all_args['file_ids'])
     window = all_args.get('window', 2)
     files = fs.find({
         '_id': {
@@ -101,15 +102,15 @@ def get_keyword_graph():
                     wordlist.append(c)
 
                 # allows for bigrams:
-                if i < len(text) - 1:
-                    bigram = c + text[i + 1]
-                    if bigram in dictionary:
-                        wordlist.append(bigram)
-                        i = i + 1
-                    elif c in dictionary:
-                        wordlist.append(c)
-                elif c in dictionary:
-                    wordlist.append(c)
+                # if i < len(text) - 1:
+                #     bigram = c + text[i + 1]
+                #     if bigram in dictionary:
+                #         wordlist.append(bigram)
+                #         i = i + 1
+                #     elif c in dictionary:
+                #         wordlist.append(c)
+                # elif c in dictionary:
+                #     wordlist.append(c)
 
                 i = i + 1
 
