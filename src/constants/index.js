@@ -14,6 +14,7 @@ export const FILE_URL = BASE_URL + '/files'
 export const FOLDER_URL = BASE_URL + '/folders'
 export const KEYWORDGRAPH_URL = BASE_URL + '/keywordgraph'
 export const KEYWORDPERMS_URL = BASE_URL + '/keywordperm'
+export const KEYWORDS_URL = BASE_URL + '/keywords'
 
 // React DnD draggable item types
 export const ItemTypes = {

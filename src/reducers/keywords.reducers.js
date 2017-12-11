@@ -6,6 +6,7 @@ import {
 const keywords = (state = {
   permData: [],
   graphData: null,
+  keywordData: [],
 }, action) => {
   switch(action.type) {
     case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC:
@@ -16,6 +17,7 @@ const keywords = (state = {
       }
     case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR: /* fall-thru */
     case keywordConsts.LOAD_KEYWORD_PERMS_ERR:
+    case keywordConsts.LOAD_KEYWORDS_ERR:
       return {
         ...state,
         error: action.error,
@@ -25,6 +27,11 @@ const keywords = (state = {
         ...state,
         permData: action.keywordPerms,
         error: null,
+      }
+    case keywordConsts.LOAD_KEYWORDS_SUCC:
+      return {
+        ...state,
+        keywordData: action.keywordData,
       }
     case fileConsts.GET_FILE_SUCC:
     case fileConsts.SELECT_FILE_SUCC:

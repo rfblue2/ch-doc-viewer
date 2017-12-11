@@ -77,3 +77,40 @@ export const getPermData = (fileIds, keywords) => {
       err => dispatch(failure(err)))
   }
 }
+
+export const getKeywordData = (fileIds, n) => {
+  const request = (fileIds, n) => {
+    return {
+      type: keywordConsts.LOAD_KEYWORDS_REQ,
+      fileIds,
+      n,
+    }
+  }
+  const success = (keywordData) => {
+    return {
+      type: keywordConsts.LOAD_KEYWORDS_SUCC,
+      keywordData,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: keywordConsts.LOAD_KEYWORDS_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(fileIds, n))
+
+    if (!fileIds ||
+      fileIds.length <= 0) {
+      dispatch(failure('Please select a file'))
+      return
+    }
+
+    keywordsService.getKeywordData(fileIds, n).then(
+      data => dispatch(success(data)),
+      err => dispatch(failure(err)))
+  }
+}
