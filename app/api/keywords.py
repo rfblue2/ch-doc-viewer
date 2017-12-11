@@ -8,6 +8,7 @@ from database import fs
 from settings import APP_ROOT
 import networkx as nx
 import queue
+import operator
 import re
 import os
 
@@ -106,24 +107,7 @@ def create_col_graph(texts, full_dictionary, d):
     return g
 
 
-# Generate keyword graph with given texts, with connections to words
-# within window (default 2) and optionally only show connections
-# to given keywords
-@keywords_api.route('/keywordgraph', methods=['GET'])
-def get_keyword_graph():
-    # TODO return error when arg missing
-    all_args = request.args.to_dict()
-    fileids = re.split(',', all_args['file_ids'])
-    window = int(all_args.get('window', 2))
-    dist = int(all_args.get('distance', 5))  # graph distance of words from keyword
-    keywords = re.split(',', all_args.get('keywords', ''))
-
-    files = fs.find({
-        '_id': {
-            '$in': list(map(lambda x: ObjectId(x), fileids))
-        }
-    })
-
+def create_keyword_graph(files, window, dist, keywords):
     stopwords = []
     with open(os.path.join(APP_ROOT, './static/stopwords.txt'), 'r') as stop_file:
         for w in stop_file:
@@ -168,10 +152,49 @@ def get_keyword_graph():
         new_graph.remove_nodes_from(zero_degree_nodes)
         graph = new_graph
 
+    return graph
+
+# Generate keyword graph with given texts, with connections to words
+# within window (default 2) and optionally only show connections
+# to given keywords
+@keywords_api.route('/keywordgraph', methods=['GET'])
+def get_keyword_graph():
+    # TODO return error when arg missing
+    all_args = request.args.to_dict()
+    fileids = re.split(',', all_args['file_ids'])
+    window = int(all_args.get('window', 2))
+    dist = int(all_args.get('distance', 5))  # graph distance of words from keyword
+    keywords = re.split(',', all_args.get('keywords', ''))
+
+    files = fs.find({
+        '_id': {
+            '$in': list(map(lambda x: ObjectId(x), fileids))
+        }
+    })
+
+    graph = create_keyword_graph(files, window, dist, keywords)
+
     return jsonify(nx.node_link_data(graph))
 
 
 @keywords_api.route('/keywords', methods=['GET'])
 def get_keywords():
-    # TODO implement by implementing pagerank on keyword graph
-    return {}, 501
+    all_args = request.args.to_dict()
+    fileids = re.split(',', all_args['file_ids'])
+    window = int(all_args.get('window', 2))
+    n = int(all_args.get('n', -1)) # how many keywords to return
+
+    files = fs.find({
+        '_id': {
+            '$in': list(map(lambda x: ObjectId(x), fileids))
+        }
+    })
+
+    graph = create_keyword_graph(files, window, 0, [''])
+
+    ranks = nx.pagerank(graph)
+    n = n if n != -1 else len(ranks)
+    ranks = sorted(ranks.items(), key=operator.itemgetter(1), reverse=True)[:n]
+    ranks = list(map(lambda x: { 'word': x[0], 'rank': x[1] }, ranks))
+
+    return jsonify(ranks)
