@@ -1,6 +1,7 @@
 import React from 'react'
 import KeywordGraphViewer from '../containers/KeywordGraphViewer'
 import KeywordSearch from '../containers/KeywordSearch'
+import DendrogramViewer from '../containers/DendrogramViewer'
 import {
   Tabs,
   Tab,
@@ -17,6 +18,9 @@ const AnalysisPanel = () => (
     </Tab>
     <Tab eventKey={2} title='Keyword Graph'>
       <KeywordGraphViewer />
+    </Tab>
+    <Tab eventKey={3} title='Dendrogram'>
+      <DendrogramViewer />
     </Tab>
   </Tabs>
 )

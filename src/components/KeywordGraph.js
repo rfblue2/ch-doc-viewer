@@ -15,22 +15,23 @@ class KeywordGraph extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { handle } = this.props
     if (nextProps.error) {
       alert(nextProps.error)
     } else if (nextProps.graphData) {
-      this.clearGraph()
-      this.renderGraph(nextProps.graphData)
+      KeywordGraph.clearGraph(handle)
+      KeywordGraph.renderGraph(nextProps.graphData, handle)
     } else {
-      this.clearGraph()
+      KeywordGraph.clearGraph(handle)
     }
   }
 
-  clearGraph() {
-    d3.selectAll(`.${this.props.handle} > *`).remove() // clear svg
+  static clearGraph(handle) {
+    d3.selectAll(`.${handle} > *`).remove() // clear svg
   }
 
-  renderGraph(graph) {
-    const svg = d3.select('.' + this.props.handle),
+  static renderGraph(graph, handle) {
+    const svg = d3.select('.' + handle),
       width = +svg.attr('width'),
       height = +svg.attr('height')
 

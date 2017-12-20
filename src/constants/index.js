@@ -4,6 +4,7 @@
 export * from './files.constants'
 export * from './folders.constants'
 export * from './keywords.constants'
+export * from './clusters.constants'
 
 const DEV_URL = 'http://127.0.0.1:5000'
 const PROD_URL = 'https://ch-doc-viewer.herokuapp.com'
@@ -15,6 +16,7 @@ export const FOLDER_URL = BASE_URL + '/folders'
 export const KEYWORDGRAPH_URL = BASE_URL + '/keywordgraph'
 export const KEYWORDPERMS_URL = BASE_URL + '/keywordperm'
 export const KEYWORDS_URL = BASE_URL + '/keywords'
+export const DENDROGRAM_URL = BASE_URL + '/dendrogram'
 
 // React DnD draggable item types
 export const ItemTypes = {
