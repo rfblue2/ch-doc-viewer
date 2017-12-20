@@ -7,7 +7,6 @@ from bson import ObjectId
 from database import fs
 from settings import APP_ROOT
 import networkx as nx
-import queue
 import operator
 import re
 import os
@@ -153,6 +152,7 @@ def create_keyword_graph(files, window, dist, keywords):
         graph = new_graph
 
     return graph
+
 
 # Generate keyword graph with given texts, with connections to words
 # within window (default 2) and optionally only show connections
