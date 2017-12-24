@@ -16,6 +16,47 @@ keywords_api = Blueprint('keywords_api', __name__)
 matcher = re.compile(r'[\u4e00-\u9fff]+')
 
 
+@keywords_api.route('/keywordcounts', methods=['GET'])
+def get_keyword_counts():
+    all_args = request.args.to_dict()
+    fileids = re.split(',', all_args['file_ids'])
+    n = int(all_args.get('n', 1))  # n-grams
+    limit = int(all_args.get('limit', 100))
+
+    files = fs.find({
+        '_id': {
+            '$in': list(map(lambda x: ObjectId(x), fileids))
+        }
+    })
+
+    counts = {}
+
+    for file in files:
+        text = file.read().decode('utf-8')
+        for i in range(0, len(text) - n + 1):
+            c = []
+            cont = False
+            for j in range(0, n):
+                c.append(text[i + j])
+                if not matcher.match(c[j]):
+                    cont = True
+
+            if cont:
+                continue
+
+            n_gram = ''.join(c)
+
+            if not n_gram in counts:
+                counts[n_gram] = 1
+            else:
+                counts[n_gram] = counts[n_gram] + 1
+
+    sorted_counts = sorted(counts.items(), key=operator.itemgetter(1), reverse=True)
+    freqs = list(map(lambda x: {'word': x[0], 'freq': x[1]}, sorted_counts))
+
+    return jsonify(freqs[:limit])
+
+
 @keywords_api.route('/keywordperm', methods=['GET'])
 def get_keyword_permutations():
     all_args = request.args.to_dict()
@@ -64,9 +105,11 @@ def segment_text(text, dictionary):
             continue
         c = text[i]
 
+        wordlist.append(c)  # ignore the dictionary
+
         # only allows unigrams:
-        if c in dictionary:
-            wordlist.append(c)
+        # if c in dictionary:
+        #     wordlist.append(c)
 
         # allows for bigrams:
         # if i < len(text) - 1:
