@@ -4,7 +4,7 @@ import { keywordConsts } from '../constants'
 export const getGraphData = (fileIds, window, keywords, distance) => {
   const request = (fileIds, window, keywords, distance) => {
     return {
-      type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
+      type: keywordConsts.KEYWORD_PERMS_REQ,
       fileIds,
       window,
       keywords,
@@ -13,14 +13,14 @@ export const getGraphData = (fileIds, window, keywords, distance) => {
   }
   const success = graphData => {
     return {
-      type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC,
+      type: keywordConsts.KEYWORD_GRAPH_DATA_SUCC,
       graphData,
     }
   }
 
   const failure = error => {
     return {
-      type: keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR,
+      type: keywordConsts.KEYWORD_GRAPH_DATA_ERR,
       error,
     }
   }
@@ -42,21 +42,21 @@ export const getGraphData = (fileIds, window, keywords, distance) => {
 export const getPermData = (fileIds, keywords) => {
   const request = (fileIds, keywords) => {
     return {
-      type: keywordConsts.LOAD_KEYWORD_PERMS_REQ,
+      type: keywordConsts.KEYWORD_PERMS_REQ,
       fileIds,
       keywords,
     }
   }
   const success = (keywordPerms) => {
     return {
-      type: keywordConsts.LOAD_KEYWORD_PERMS_SUCC,
+      type: keywordConsts.KEYWORD_PERMS_SUCC,
       keywordPerms,
     }
   }
 
   const failure = error => {
     return {
-      type: keywordConsts.LOAD_KEYWORD_PERMS_ERR,
+      type: keywordConsts.KEYWORD_PERMS_ERR,
       error,
     }
   }
@@ -78,24 +78,62 @@ export const getPermData = (fileIds, keywords) => {
   }
 }
 
+export const getKeywordFreqData = (fileIds, n, limit) => {
+  const request = (fileIds, n, limit) => {
+    return {
+      type: keywordConsts.KEYWORD_FREQ_REQ,
+      fileIds,
+      n,
+      limit,
+    }
+  }
+  const success = (keywordFreqData) => {
+    return {
+      type: keywordConsts.KEYWORD_FREQ_SUCC,
+      keywordFreqData,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: keywordConsts.KEYWORD_FREQ_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(fileIds, n, limit))
+
+    if (!fileIds ||
+      fileIds.length <= 0) {
+      dispatch(failure('Please select a file'))
+    }
+
+    keywordsService.getKeywordFreqData(fileIds, n, limit).then(
+      data => dispatch(success(data)),
+      err => dispatch(failure(err))
+    )
+  }
+}
+
 export const getKeywordData = (fileIds, n) => {
   const request = (fileIds, n) => {
     return {
-      type: keywordConsts.LOAD_KEYWORDS_REQ,
+      type: keywordConsts.KEYWORDS_REQ,
       fileIds,
       n,
     }
   }
   const success = (keywordData) => {
     return {
-      type: keywordConsts.LOAD_KEYWORDS_SUCC,
+      type: keywordConsts.KEYWORDS_SUCC,
       keywordData,
     }
   }
 
   const failure = error => {
     return {
-      type: keywordConsts.LOAD_KEYWORDS_ERR,
+      type: keywordConsts.KEYWORDS_ERR,
       error,
     }
   }

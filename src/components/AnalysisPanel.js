@@ -2,6 +2,7 @@ import React from 'react'
 import KeywordGraphViewer from '../containers/KeywordGraphViewer'
 import KeywordSearch from '../containers/KeywordSearch'
 import DendrogramViewer from '../containers/DendrogramViewer'
+import FreqGraphViewer from '../containers/FreqGraphViewer'
 import {
   Tabs,
   Tab,
@@ -13,13 +14,16 @@ import './AnalysisPanel.css'
  */
 const AnalysisPanel = () => (
   <Tabs defaultActiveKey={1} animation={false} id='analysis_panel'>
-    <Tab eventKey={1} title='Keyword Search'>
+    <Tab eventKey={1} title='Keyword Frequency'>
+      <FreqGraphViewer />
+    </Tab>
+    <Tab eventKey={2} title='Keyword Search'>
       <KeywordSearch />
     </Tab>
-    <Tab eventKey={2} title='Keyword Graph'>
+    <Tab eventKey={3} title='Keyword Graph'>
       <KeywordGraphViewer />
     </Tab>
-    <Tab eventKey={3} title='Dendrogram'>
+    <Tab eventKey={4} title='Dendrogram'>
       <DendrogramViewer />
     </Tab>
   </Tabs>

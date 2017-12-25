@@ -9,26 +9,33 @@ const keywords = (state = {
   keywordData: [],
 }, action) => {
   switch(action.type) {
-    case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_SUCC:
+    case keywordConsts.KEYWORD_GRAPH_DATA_SUCC:
       return {
         ...state,
         error: null,
         graphData: action.graphData,
       }
-    case keywordConsts.LOAD_KEYWORD_GRAPH_DATA_ERR: /* fall-thru */
-    case keywordConsts.LOAD_KEYWORD_PERMS_ERR:
-    case keywordConsts.LOAD_KEYWORDS_ERR:
+    case keywordConsts.KEYWORD_GRAPH_DATA_ERR: /* fall-thru */
+    case keywordConsts.KEYWORD_PERMS_ERR:
+    case keywordConsts.KEYWORD_FREQ_ERR:
+    case keywordConsts.KEYWORDS_ERR:
       return {
         ...state,
         error: action.error,
       }
-    case keywordConsts.LOAD_KEYWORD_PERMS_SUCC:
+    case keywordConsts.KEYWORD_PERMS_SUCC:
       return {
         ...state,
         permData: action.keywordPerms,
         error: null,
       }
-    case keywordConsts.LOAD_KEYWORDS_SUCC:
+    case keywordConsts.KEYWORD_FREQ_SUCC:
+      return {
+        ...state,
+        freqData: action.keywordFreqData,
+        error: null,
+      }
+    case keywordConsts.KEYWORDS_SUCC:
       return {
         ...state,
         keywordData: action.keywordData,

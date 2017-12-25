@@ -1,6 +1,7 @@
 import { buildUrl } from 'build-url'
 import { handleResponse } from './helper'
 import {
+  FREQ_URL,
   KEYWORDGRAPH_URL,
   KEYWORDPERMS_URL,
   KEYWORDS_URL,
@@ -32,6 +33,19 @@ const getPermData = (fileIds, keywords) => {
   return fetch(url, options).then(handleResponse)
 }
 
+const getKeywordFreqData = (fileIds, n, limit) => {
+  const url = buildUrl(FREQ_URL,
+    {
+      queryParams: {
+        file_ids: fileIds,
+        n,
+        limit,
+      }
+    })
+  const options = { mode: 'cors' }
+  return fetch(url,options).then(handleResponse)
+}
+
 const getKeywordData = (fileIds, n) => {
   const url = buildUrl(KEYWORDS_URL,
     {
@@ -43,8 +57,10 @@ const getKeywordData = (fileIds, n) => {
   const options = { mode: 'cors' }
   return fetch(url, options).then(handleResponse)
 }
+
 export const keywordsService = {
   getGraphData,
   getPermData,
+  getKeywordFreqData,
   getKeywordData,
 }
