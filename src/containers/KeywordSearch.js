@@ -7,9 +7,9 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap'
-import { getGraphData, getPermData } from '../actions'
+import { getColData, getPermData } from '../actions'
 import KeywordPermViewer from '../components/KeywordPermViewer'
-import KeywordGraph from '../components/KeywordGraph'
+import KeywordGraph2 from '../components/KeywordGraph2'
 
 /**
  * Enables keyword search
@@ -25,11 +25,12 @@ class KeywordSearch extends Component {
       }).isRequired
     ),
     error: PropTypes.string,
+    colData: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = { query: '' }
   }
 
@@ -40,6 +41,7 @@ class KeywordSearch extends Component {
     }
   }
 
+  // returns the keywords from the user query
   getKeywords() {
     return this.state.query
       .split(/[，,]+/)
@@ -47,6 +49,7 @@ class KeywordSearch extends Component {
       .filter(Boolean)
   }
 
+  // handle textfield enter keypress
   onKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -62,7 +65,7 @@ class KeywordSearch extends Component {
   }
 
   render() {
-    const { keywordPerms, generate, fileIds, graphData } = this.props
+    const { keywordPerms, generate, fileIds, colData } = this.props
     return (
       <div>
         <form>
@@ -84,10 +87,10 @@ class KeywordSearch extends Component {
           onClick={() => {
             generate(fileIds, this.getKeywords())
           }} >
-          Keyword SubGraph
+          Keyword Collocation Graph
         </Button>
         <br/>
-        <KeywordGraph graphData={graphData} handle='search'/>
+        <KeywordGraph2 colData={colData} />
       </div>
     )
   }
@@ -97,7 +100,7 @@ const mapStateToProps = state => {
   return {
     keywordPerms: state.keywords.permData,
     fileIds: state.files.selectedFiles.map(f => f.id),
-    graphData: state.keywords.graphData,
+    colData: state.keywords.colData,
   }
 }
 
@@ -105,7 +108,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch: dispatch,
     generate: (fileIds, keywords) => {
-      dispatch(getGraphData(fileIds, 2, keywords, 5))
+      dispatch(getColData(fileIds, 2, keywords, 'mi'))
     }
   }
 }

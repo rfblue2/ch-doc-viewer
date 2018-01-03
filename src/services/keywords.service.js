@@ -3,6 +3,7 @@ import { handleResponse } from './helper'
 import {
   FREQ_URL,
   KEYWORDGRAPH_URL,
+  KEYWORD_COL_URL,
   KEYWORDPERMS_URL,
   KEYWORDS_URL,
 } from '../constants'
@@ -15,6 +16,20 @@ const getGraphData = (fileIds, window, keywords, distance) => {
         ...window && {window},
         ...keywords && {keywords},
         ...distance && {distance},
+      }
+    })
+  const options = { mode: 'cors' }
+  return fetch(url, options).then(handleResponse)
+}
+
+const getColData = (fileIds, window, keywords, scoreType) => {
+  const url = buildUrl(KEYWORD_COL_URL,
+    {
+      queryParams: {
+        file_ids: fileIds,
+        ...scoreType && { score_type: scoreType },
+        ...window && {window},
+        ...keywords && {keywords},
       }
     })
   const options = { mode: 'cors' }
@@ -60,6 +75,7 @@ const getKeywordData = (fileIds, n) => {
 
 export const keywordsService = {
   getGraphData,
+  getColData,
   getPermData,
   getKeywordFreqData,
   getKeywordData,

@@ -317,8 +317,8 @@ def create_keyword_graph2(texts, d, terms, score_type):
     # construct graph
     def create_col_graph2(collocates, scorer):
         g = nx.DiGraph()
-        list(map(lambda t: g.add_node(t, term=True), terms))
         list(map(lambda c: g.add_node(c, term=False), collocates))
+        list(map(lambda t: g.add_node(t, term=True), terms))
         list(map(lambda x: g.add_edge(x[0][0], x[0][1], weight=scorer(x[1])), collocations.items()))
         return g
 

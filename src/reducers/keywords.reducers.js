@@ -15,7 +15,14 @@ const keywords = (state = {
         error: null,
         graphData: action.graphData,
       }
+    case keywordConsts.KEYWORD_COL_SUCC:
+      return {
+        ...state,
+        error: null,
+        colData: action.colData,
+      }
     case keywordConsts.KEYWORD_GRAPH_DATA_ERR: /* fall-thru */
+    case keywordConsts.KEYWORD_COL_ERR:
     case keywordConsts.KEYWORD_PERMS_ERR:
     case keywordConsts.KEYWORD_FREQ_ERR:
     case keywordConsts.KEYWORDS_ERR:

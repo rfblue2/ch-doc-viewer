@@ -4,7 +4,7 @@ import { keywordConsts } from '../constants'
 export const getGraphData = (fileIds, window, keywords, distance) => {
   const request = (fileIds, window, keywords, distance) => {
     return {
-      type: keywordConsts.KEYWORD_PERMS_REQ,
+      type: keywordConsts.KEYWORD_GRAPH_DATA_REQ,
       fileIds,
       window,
       keywords,
@@ -34,6 +34,44 @@ export const getGraphData = (fileIds, window, keywords, distance) => {
     }
 
     keywordsService.getGraphData(fileIds, window, keywords, distance).then(
+      data => dispatch(success(data)),
+      err => dispatch(failure(err)))
+  }
+}
+
+export const getColData = (fileIds, window, keywords, scoreType) => {
+  const request = (fileIds, window, keywords, scoreType) => {
+    return {
+      type: keywordConsts.KEYWORD_COL_REQ,
+      fileIds,
+      window,
+      keywords,
+      scoreType,
+    }
+  }
+  const success = colData => {
+    return {
+      type: keywordConsts.KEYWORD_COL_SUCC,
+      colData,
+    }
+  }
+
+  const failure = error => {
+    return {
+      type: keywordConsts.KEYWORD_COL_ERR,
+      error,
+    }
+  }
+
+  return dispatch => {
+    dispatch(request(fileIds, window, keywords, scoreType))
+
+    if (!fileIds || fileIds.length <= 0) {
+      dispatch(failure('Error: No File Selected'))
+      return
+    }
+
+    keywordsService.getColData(fileIds, window, keywords, scoreType).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err)))
   }
