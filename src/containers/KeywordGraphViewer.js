@@ -33,7 +33,6 @@ class KeywordGraphViewer extends Component {
     this.state = { window: 2 }
   }
 
-
   handleSpinner(count) {
     this.setState({ window: count })
   }

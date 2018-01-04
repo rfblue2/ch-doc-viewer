@@ -61,11 +61,15 @@ class KeywordSearch extends Component {
   onKeyPress(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
-      this.props.dispatch(getPermData(
-        this.props.fileIds,
-        this.getKeywords(),
-      ))
+      this.getPermutations()
     }
+  }
+
+  getPermutations() {
+    this.props.dispatch(getPermData(
+      this.props.fileIds,
+      this.getKeywords(),
+    ))
   }
 
   handleChange(e) {
@@ -95,7 +99,7 @@ class KeywordSearch extends Component {
                   onKeyPress={ this.onKeyPress.bind(this) }
                 />
               </Col>
-              <Button>Search</Button>
+              <Button onClick={this.getPermutations.bind(this)}>Search</Button>
             </Row>
           </FormGroup>
           <FormGroup>
@@ -129,7 +133,6 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch: dispatch,
     generate: (fileIds, keywords, window) => {
-      console.log(window)
       dispatch(getColData(fileIds, window, keywords, 'mi'))
     }
   }
