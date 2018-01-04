@@ -4,7 +4,9 @@ import React, { Component } from 'react'
 import { getGraphData, getKeywordData } from '../actions'
 import {
   Button,
+  ControlLabel,
 } from 'react-bootstrap'
+import NumberSpinner from '../components/NumberSpinner'
 import KeywordGraph from '../components/KeywordGraph'
 import KeywordViewer from '../components/KeywordViewer'
 
@@ -26,19 +28,36 @@ class KeywordGraphViewer extends Component {
     ).isRequired,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = { window: 2 }
+  }
+
+
+  handleSpinner(count) {
+    this.setState({ window: count })
+  }
+
+  getWindowSize() {
+    return this.state.window
+  }
+
   render() {
     const { generate, fileIds,
       findKeywords, keywordData } = this.props
     return (
       <div>
         <Button
-          onClick={() => generate(fileIds)}>
+          onClick={() => generate(fileIds, this.getWindowSize())}>
           Keyword Graph
         </Button>
         <Button
           onClick={() => findKeywords(fileIds)}>
           Auto-identify Keywords
         </Button>
+        <br/>
+        <ControlLabel>Window Size</ControlLabel>
+        <NumberSpinner min={2} max={10} onChange={this.handleSpinner.bind(this)}/>
         <br/>
         <div className='row'>
           <KeywordGraph className='col-sm-10' { ...this.props } handle='viewer'/>
@@ -60,8 +79,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    generate: fileIds => {
-      dispatch(getGraphData(fileIds))
+    generate: (fileIds, window) => {
+      dispatch(getGraphData(fileIds, window))
     },
     findKeywords: fileIds => {
       dispatch(getKeywordData(fileIds, 10))

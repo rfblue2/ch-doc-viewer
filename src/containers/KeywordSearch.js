@@ -73,7 +73,6 @@ class KeywordSearch extends Component {
   }
 
   handleSpinner(count) {
-    console.log(count)
     this.setState({ window: count })
   }
 

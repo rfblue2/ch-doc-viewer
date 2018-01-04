@@ -30,6 +30,11 @@ def get_keyword_counts():
         }
     })
 
+    stopwords = []
+    with open(os.path.join(APP_ROOT, './static/stopwords.txt'), 'r') as stop_file:
+        for w in stop_file:
+            stopwords.append(w[:-1])
+
     counts = {}
 
     for file in files:
@@ -39,7 +44,7 @@ def get_keyword_counts():
             cont = False
             for j in range(0, n):
                 c.append(text[i + j])
-                if not matcher.match(c[j]):
+                if not matcher.match(c[j]) or c[j] in stopwords:
                     cont = True
 
             if cont:
@@ -97,14 +102,18 @@ def get_keyword_permutations():
 
 
 # split the text into an array of words given dictionary (array) for that text
-def segment_text(text, dictionary):
+def segment_text(text, dictionary, stopwords=[]):
     wordlist = []
     i = 0
     while i < len(text):
         if not matcher.match(text[i]):
             i = i + 1
             continue
+
         c = text[i]
+
+        if text[i] in stopwords:
+            continue
 
         wordlist.append(c)  # ignore the dictionary
 
@@ -161,7 +170,7 @@ def create_keyword_graph(files, window, dist, keywords):
         for w in dict_file:
             full_dictionary.append(w[:-1])
 
-    full_dictionary = list(filter(lambda d: not d in stopwords, list(full_dictionary)))
+    full_dictionary = list(filter(lambda d: d not in stopwords, list(full_dictionary)))
 
     # concat the contents of all the files, separated by null char
     all_texts = list(map(lambda f: f.read().decode('utf-8'), files))
