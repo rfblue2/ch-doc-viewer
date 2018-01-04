@@ -36,8 +36,10 @@ class KeywordGraph2 extends Component {
 
     const radius = 5
 
+    const maxWeight = Math.max.apply(Math, graph.links.map(n => n.weight))
+
     const simulation = d3.forceSimulation()
-      .force('link', d3.forceLink().id(d => d.id).distance(d => d.weight * 20))
+      .force('link', d3.forceLink().id(d => d.id).distance(d => d.weight * 160 / maxWeight + 40))
       .force('charge', d3.forceManyBody().strength(-5))
       .force('center', d3.forceCenter(width / 2, height / 2))
 

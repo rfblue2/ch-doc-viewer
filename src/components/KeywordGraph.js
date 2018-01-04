@@ -5,6 +5,7 @@ import './KeywordGraph.css'
 
 /**
  * Displays a keyword collocation graph using d3
+ * As per Lahiri et al.
  */
 class KeywordGraph extends Component {
 

@@ -321,6 +321,10 @@ def create_keyword_graph2(texts, d, terms, score_type):
             'e12': r1 * c2 / n,
             'e21': r2 * c1 / n,
             'e22': r2 * c2 / n,
+            'r1': r1,
+            'r2': r2,
+            'c1': c1,
+            'c2': c2,
         })
 
     # construct graph
@@ -331,20 +335,22 @@ def create_keyword_graph2(texts, d, terms, score_type):
         list(map(lambda x: g.add_edge(x[0][0], x[0][1], weight=scorer(x[1])), collocations.items()))
         return g
 
+    eps = 0.000001
+
     scorers = {
         'freq': lambda x: x['o11'],
         'mu': lambda x: x['o11'] / x['e11'],
         'mi': lambda x: math.log2(x['o11'] / x['e11']),
-        'mi2': lambda x: math.log2(x['o11'] ^ 2 / x['e11']),
-        'll': lambda x: 2 * (x['o11'] * math.log(x['o11'] / x['e11']) +
-                             x['o12'] * math.log(x['o12'] / x['e12']) +
-                             x['o21'] * math.log(x['o21'] / x['e21']) +
-                             x['o22'] * math.log(x['o22'] / x['e22'])),
+        'mi2': lambda x: math.log2(x['o11'] ** 2 / x['e11']),
+        'll': lambda x: 2 * (x['o11'] * math.log(x['o11'] / x['e11'] + eps) +
+                             x['o12'] * math.log(x['o12'] / x['e12'] + eps) +
+                             x['o21'] * math.log(x['o21'] / x['e21'] + eps) +
+                             x['o22'] * math.log(x['o22'] / x['e22'] + eps)),
         'z': lambda x: (x['o11'] - x['e11']) / math.sqrt(x['e11']),
         'dice': lambda x: (2 * x['o11']) / (x['r1'] + x['c1']),
         'log-dice': lambda x: 14 + math.log2((2 * x['o11']) / (x['r1'] + x['c1'])),
         't': lambda x: (x['o11'] - x['e11']) / math.sqrt(x['o11']),
-        'log-ratio': lambda x: math.log2((x['o11'] * x['r2']) / (x['o21'] * x['r2'])),
+        'log-ratio': lambda x: math.log2((x['o11'] * x['r2']) / (x['o21'] * x['r2'] + eps)),
         'min-sensitivity': lambda x: min(x['o11'] / x['c1'], x['o11'] / x['r1'])
     }
 

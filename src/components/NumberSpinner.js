@@ -42,7 +42,7 @@ class NumberSpinner extends Component {
             onClick={this.decrement.bind(this)}
           >-</Button>
         </Col>
-        <Col xs={1}>
+        <Col xs={2}>
           <FormControl
             type="text"
             readOnly

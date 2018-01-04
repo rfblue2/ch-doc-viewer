@@ -8,6 +8,8 @@ import {
   ControlLabel,
   FormControl,
   Button,
+  DropdownButton,
+  MenuItem,
 } from 'react-bootstrap'
 import { getColData, getPermData } from '../actions'
 import NumberSpinner from '../components/NumberSpinner'
@@ -35,7 +37,7 @@ class KeywordSearch extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { query: '', window: 2 }
+    this.state = { query: '', window: 2, scoreType: 'mi' }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,6 +57,10 @@ class KeywordSearch extends Component {
 
   getWindowSize() {
     return this.state.window
+  }
+
+  getScoreType() {
+    return this.state.scoreType
   }
 
   // handle textfield enter keypress
@@ -80,6 +86,49 @@ class KeywordSearch extends Component {
     this.setState({ window: count })
   }
 
+  handleScoreSelect(type) {
+    return () => {
+      this.setState({scoreType: type})
+    }
+  }
+
+  renderDropdown() {
+    const scoreTypes = [
+      'freq', 'mu', 'mi', 'mi2', 'll', 'z', 'dice', 'log-dice', 't', 'log-ratio', 'min-sensitivity',
+    ]
+
+    const typeToName = type => {
+      switch (type) {
+        case 'freq': return 'Frequency'
+        case 'mu': return 'Mean'
+        case 'mi': return 'Mutual Information'
+        case 'mi2': return 'Mutual Information Squared'
+        case 'll': return 'Log Likelihood'
+        case 'z': return 'Z-score'
+        case 'dice': return 'Dice'
+        case 'log-dice': return 'Log Dice'
+        case 't': return 't-distribution'
+        case 'log-ratio': return 'Log Ratio'
+        case 'min-sensitivity': return 'Minimum Sensitivity'
+        default: return ''
+      }
+    }
+
+    const renderDropdownItem = type =>
+      <MenuItem key={type} eventKey={type} onSelect={this.handleScoreSelect(type).bind(this)}>
+        {typeToName(type)}
+      </MenuItem>
+
+    return (
+      <DropdownButton
+        id={'score-type-dropdown'}
+        title={typeToName(this.state.scoreType)}
+      >
+        {scoreTypes.map(renderDropdownItem)}
+      </DropdownButton>
+    )
+  }
+
   render() {
     const { keywordPerms, generate, fileIds, colData } = this.props
     return (
@@ -102,15 +151,26 @@ class KeywordSearch extends Component {
               <Button onClick={this.getPermutations.bind(this)}>Search</Button>
             </Row>
           </FormGroup>
-          <FormGroup>
-            <ControlLabel>Window Size</ControlLabel>
-            <NumberSpinner onChange={this.handleSpinner.bind(this)} min={2} max={10} />
-          </FormGroup>
+          <Row>
+            <Col xs={6}>
+              <FormGroup>
+                <ControlLabel>Window Size</ControlLabel>
+                <NumberSpinner onChange={this.handleSpinner.bind(this)} min={2} max={10} />
+              </FormGroup>
+            </Col>
+            <Col xs={6}>
+              <FormGroup>
+                <ControlLabel>Scoring Type</ControlLabel>
+                <br/>
+                { this.renderDropdown() }
+              </FormGroup>
+            </Col>
+          </Row>
         </form>
         <KeywordPermViewer keywordPerms={keywordPerms} />
         <Button
           onClick={() => {
-            generate(fileIds, this.getKeywords(), this.getWindowSize())
+            generate(fileIds, this.getKeywords(), this.getWindowSize(), this.getScoreType())
           }} >
           Draw Keyword Collocation Graph
         </Button>
@@ -132,8 +192,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch: dispatch,
-    generate: (fileIds, keywords, window) => {
-      dispatch(getColData(fileIds, window, keywords, 'mi'))
+    generate: (fileIds, keywords, window, scoreType) => {
+      dispatch(getColData(fileIds, window, keywords, scoreType))
     }
   }
 }

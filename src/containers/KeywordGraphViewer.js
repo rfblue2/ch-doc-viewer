@@ -5,6 +5,8 @@ import { getGraphData, getKeywordData } from '../actions'
 import {
   Button,
   ControlLabel,
+  Row,
+  Col,
 } from 'react-bootstrap'
 import NumberSpinner from '../components/NumberSpinner'
 import KeywordGraph from '../components/KeywordGraph'
@@ -55,8 +57,12 @@ class KeywordGraphViewer extends Component {
           Auto-identify Keywords
         </Button>
         <br/>
-        <ControlLabel>Window Size</ControlLabel>
-        <NumberSpinner min={2} max={10} onChange={this.handleSpinner.bind(this)}/>
+        <Row>
+          <Col xs={6}>
+            <ControlLabel>Window Size</ControlLabel>
+            <NumberSpinner min={2} max={10} onChange={this.handleSpinner.bind(this)}/>
+          </Col>
+        </Row>
         <br/>
         <div className='row'>
           <KeywordGraph className='col-sm-10' { ...this.props } handle='viewer'/>
