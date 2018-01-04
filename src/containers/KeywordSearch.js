@@ -1,13 +1,16 @@
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { 
+import {
+  Row,
+  Col,
   FormGroup,
   ControlLabel,
   FormControl,
   Button,
 } from 'react-bootstrap'
 import { getColData, getPermData } from '../actions'
+import NumberSpinner from '../components/NumberSpinner'
 import KeywordPermViewer from '../components/KeywordPermViewer'
 import KeywordGraph2 from '../components/KeywordGraph2'
 
@@ -24,6 +27,7 @@ class KeywordSearch extends Component {
         after: PropTypes.string.isRequired,
       }).isRequired
     ),
+    generate: PropTypes.func.isRequired,
     error: PropTypes.string,
     colData: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
@@ -31,7 +35,7 @@ class KeywordSearch extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { query: '' }
+    this.state = { query: '', window: 2 }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,6 +53,10 @@ class KeywordSearch extends Component {
       .filter(Boolean)
   }
 
+  getWindowSize() {
+    return this.state.window
+  }
+
   // handle textfield enter keypress
   onKeyPress(e) {
     if (e.key === 'Enter') {
@@ -64,6 +72,11 @@ class KeywordSearch extends Component {
     this.setState({ query: e.target.value })
   }
 
+  handleSpinner(count) {
+    console.log(count)
+    this.setState({ window: count })
+  }
+
   render() {
     const { keywordPerms, generate, fileIds, colData } = this.props
     return (
@@ -73,21 +86,30 @@ class KeywordSearch extends Component {
             controlId="formBasicText"
           >
             <ControlLabel>Keywords (comma separated):</ControlLabel>
-            <FormControl
-              type="text"
-              value={ this.state.query}
-              placeholder="Enter text"
-              onChange={ this.handleChange.bind(this) }
-              onKeyPress={ this.onKeyPress.bind(this) }
-            />
+            <Row>
+              <Col xs={10}>
+                <FormControl
+                  type="text"
+                  value={ this.state.query}
+                  placeholder="Enter text"
+                  onChange={ this.handleChange.bind(this) }
+                  onKeyPress={ this.onKeyPress.bind(this) }
+                />
+              </Col>
+              <Button>Search</Button>
+            </Row>
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Window Size</ControlLabel>
+            <NumberSpinner onChange={this.handleSpinner.bind(this)} min={2} max={10} />
           </FormGroup>
         </form>
         <KeywordPermViewer keywordPerms={keywordPerms} />
         <Button
           onClick={() => {
-            generate(fileIds, this.getKeywords())
+            generate(fileIds, this.getKeywords(), this.getWindowSize())
           }} >
-          Keyword Collocation Graph
+          Draw Keyword Collocation Graph
         </Button>
         <br/>
         <KeywordGraph2 colData={colData} />
@@ -107,8 +129,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch: dispatch,
-    generate: (fileIds, keywords) => {
-      dispatch(getColData(fileIds, 2, keywords, 'mi'))
+    generate: (fileIds, keywords, window) => {
+      console.log(window)
+      dispatch(getColData(fileIds, window, keywords, 'mi'))
     }
   }
 }
