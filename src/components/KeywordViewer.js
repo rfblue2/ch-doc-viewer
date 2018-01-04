@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import Keyword from './Keyword'
+import './KeywordViewer.css'
 
 /**
  * Shows keywords found

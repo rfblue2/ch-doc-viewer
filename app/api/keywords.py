@@ -113,6 +113,7 @@ def segment_text(text, dictionary, stopwords=[]):
         c = text[i]
 
         if text[i] in stopwords:
+            i = i + 1
             continue
 
         wordlist.append(c)  # ignore the dictionary
@@ -138,11 +139,11 @@ def segment_text(text, dictionary, stopwords=[]):
 
 
 # create graph from texts and window size
-def create_col_graph(texts, full_dictionary, d):
+def create_col_graph(texts, full_dictionary, d, stopwords=[]):
     g = nx.Graph()
 
     for t in texts:
-        words = segment_text(t, full_dictionary)
+        words = segment_text(t, full_dictionary, stopwords)
 
         g.add_nodes_from(list(set(words)))
 
@@ -174,7 +175,7 @@ def create_keyword_graph(files, window, dist, keywords):
 
     # concat the contents of all the files, separated by null char
     all_texts = list(map(lambda f: f.read().decode('utf-8'), files))
-    graph = create_col_graph(all_texts, full_dictionary, window)
+    graph = create_col_graph(all_texts, full_dictionary, window, stopwords)
 
     # if keywords specified, then only include keywords and nodes that
     # are distance away from keyword nodes

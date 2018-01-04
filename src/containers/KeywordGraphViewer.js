@@ -64,10 +64,13 @@ class KeywordGraphViewer extends Component {
           </Col>
         </Row>
         <br/>
-        <div className='row'>
-          <KeywordGraph className='col-sm-10' { ...this.props } handle='viewer'/>
-          <KeywordViewer className='col-sm-2' keywordData={ keywordData } />
-        </div>
+        <Row>
+          <Col xs={11}>
+            <KeywordGraph className='col-sm-10' { ...this.props } handle='viewer'/>
+            <h3>Identified Keywords:</h3>
+            <KeywordViewer className='col-sm-2' keywordData={ keywordData } />
+          </Col>
+        </Row>
       </div>
     )
   }
