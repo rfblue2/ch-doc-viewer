@@ -84,7 +84,7 @@ class KeywordGraph2 extends Component {
 
     node.append('text')
       .text(d => d.id)
-      .style('font-size', d => d.term ? '20px' : '16px')
+      .style('font-size', d => d.term ? '24px' : '20px')
 
     const ticked = () => {
       link

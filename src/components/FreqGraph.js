@@ -64,6 +64,10 @@ class FreqGraph extends Component {
       .attr('y', d => y(d.freq) )
       .attr('width', x.bandwidth())
       .attr('height', d => height - y(d.freq))
+
+    svg.select('.axis')
+      .selectAll('text')
+      .style('font-size','20px')
   }
 
   render() {

@@ -59,13 +59,13 @@ class Dendrogram extends Component {
       .attr('transform', d => `translate(${d.y},${d.x})`)
 
     node.append('circle')
-      .attr('r', 4.5)
+      .attr('r', 5)
 
     node.append('text')
       .attr('dx', d => d.children ? -8 : 8 )
-      .attr('dy', 3)
+      .attr('dy', 5)
       .style('text-anchor', d => d.children ? 'end' : 'start' )
-      .style('font-size', 24)
+      .style('font-size', '14px')
       .text(d => d.data.name)
 
   }
@@ -75,8 +75,8 @@ class Dendrogram extends Component {
       <svg
         className='dendrogram'
         ref={node => this.node = node}
-        width={800}
-        height={500}
+        width={900}
+        height={400}
       />
     )
   }
