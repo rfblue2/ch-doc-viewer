@@ -116,13 +116,14 @@ export const getPermData = (fileIds, keywords) => {
   }
 }
 
-export const getKeywordFreqData = (fileIds, n, limit) => {
-  const request = (fileIds, n, limit) => {
+export const getKeywordFreqData = (fileIds, n, limit, normalize) => {
+  const request = (fileIds, n, limit, normalize) => {
     return {
       type: keywordConsts.KEYWORD_FREQ_REQ,
       fileIds,
       n,
       limit,
+      normalize,
     }
   }
   const success = (keywordFreqData) => {
@@ -140,14 +141,14 @@ export const getKeywordFreqData = (fileIds, n, limit) => {
   }
 
   return dispatch => {
-    dispatch(request(fileIds, n, limit))
+    dispatch(request(fileIds, n, limit, normalize))
 
     if (!fileIds ||
       fileIds.length <= 0) {
       dispatch(failure('Please select a file'))
     }
 
-    keywordsService.getKeywordFreqData(fileIds, n, limit).then(
+    keywordsService.getKeywordFreqData(fileIds, n, limit, normalize).then(
       data => dispatch(success(data)),
       err => dispatch(failure(err))
     )

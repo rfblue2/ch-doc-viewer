@@ -48,13 +48,14 @@ const getPermData = (fileIds, keywords) => {
   return fetch(url, options).then(handleResponse)
 }
 
-const getKeywordFreqData = (fileIds, n, limit) => {
+const getKeywordFreqData = (fileIds, n, limit, normalize) => {
   const url = buildUrl(FREQ_URL,
     {
       queryParams: {
         file_ids: fileIds,
         n,
         limit,
+        normalize,
       }
     })
   const options = { mode: 'cors' }

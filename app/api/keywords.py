@@ -21,6 +21,7 @@ matcher = re.compile(r'[\u4e00-\u9fff]+')
 def get_keyword_counts():
     all_args = request.args.to_dict()
     fileids = re.split(',', all_args['file_ids'])
+    normalize = all_args.get('normalize', 'false') == 'true'
     n = int(all_args.get('n', 1))  # n-grams
     limit = int(all_args.get('limit', 100))
 
@@ -35,9 +36,10 @@ def get_keyword_counts():
         for w in stop_file:
             stopwords.append(w[:-1])
 
-    counts = {}
+    total_counts = {}
 
     for file in files:
+        counts = {}
         text = file.read().decode('utf-8')
         for i in range(0, len(text) - n + 1):
             c = []
@@ -57,7 +59,17 @@ def get_keyword_counts():
             else:
                 counts[n_gram] = counts[n_gram] + 1
 
-    sorted_counts = sorted(counts.items(), key=operator.itemgetter(1), reverse=True)
+        if normalize:
+            text_length = len(text) / n
+            counts.update((k, v / text_length) for k, v in counts.items())
+
+        for k, v in counts.items():
+            if k in total_counts:
+                total_counts[k] = total_counts[k] + counts[k]
+            else:
+                total_counts[k] = counts[k]
+
+    sorted_counts = sorted(total_counts.items(), key=operator.itemgetter(1), reverse=True)
     freqs = list(map(lambda x: {'word': x[0], 'freq': x[1]}, sorted_counts))
 
     return jsonify(freqs[:limit])
