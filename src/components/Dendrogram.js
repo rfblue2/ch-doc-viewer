@@ -75,8 +75,8 @@ class Dendrogram extends Component {
       <svg
         className='dendrogram'
         ref={node => this.node = node}
-        width={900}
-        height={400}
+        width={800}
+        height={500}
       />
     )
   }
