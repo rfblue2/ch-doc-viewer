@@ -76,7 +76,7 @@ class Dendrogram extends Component {
         className='dendrogram'
         ref={node => this.node = node}
         width={800}
-        height={500}
+        height={800}
       />
     )
   }
